@@ -1,0 +1,8 @@
+{
+  "_fixture_note": "misdelivery test sample: symbol does not match request",
+  "meta": {"symbol": "GBP/USD", "interval": "1min"},
+  "values": [
+    {"datetime": "2026-08-20 10:00:00", "open": "1.27000", "high": "1.27050", "low": "1.26980", "close": "1.27020"}
+  ],
+  "status": "ok"
+}

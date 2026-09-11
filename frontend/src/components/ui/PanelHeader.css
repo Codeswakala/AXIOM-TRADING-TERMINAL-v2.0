@@ -1,0 +1,67 @@
+/**
+ * PanelHeader Styles (UI-009-P03) — Pure Tokenized CSS
+ */
+
+.ix-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ix-space-3);
+  width: 100%;
+  font-family: var(--ix-font-sans);
+}
+
+.ix-panel-header__main {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  min-width: 0;
+  flex: 1;
+}
+
+.ix-panel-header__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ix-color-accent);
+  font-size: var(--ix-icon-size-md);
+  flex-shrink: 0;
+}
+
+.ix-panel-header__titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ix-panel-header__title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-workspace-title);
+  font-weight: 600;
+  color: var(--ix-text-primary);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+h3.ix-panel-header__title {
+  font-size: var(--ix-type-section-heading);
+}
+
+.ix-panel-header__subtitle {
+  margin: var(--ix-space-1) 0 0 0;
+  padding: 0;
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-secondary);
+  line-height: 1.2;
+}
+
+.ix-panel-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  flex-shrink: 0;
+}

@@ -1,0 +1,86 @@
+/**
+ * EmptyState Styles (UI-010-P03) — Pure Tokenized CSS
+ *
+ * Strictly consumes Tier 1-3 CSS custom properties:
+ * --ix-bg-surface, --ix-bg-surface-raised, --ix-border-subtle,
+ * --ix-space-*, --ix-radius-*, --ix-type-*, --ix-font-*, --ix-motion-fast.
+ *
+ * 0 ad-hoc hex / 0 hardcoded styling outside tokens.
+ */
+
+.ix-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--ix-bg-surface);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-md);
+  padding: var(--ix-space-8) var(--ix-space-6);
+  gap: var(--ix-space-4);
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ix-empty-state--compact {
+  padding: var(--ix-space-4) var(--ix-space-3);
+  gap: var(--ix-space-2);
+}
+
+.ix-empty-state__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-display-title);
+  line-height: 1;
+}
+
+.ix-empty-state--compact .ix-empty-state__icon {
+  font-size: var(--ix-type-workspace-title);
+}
+
+.ix-empty-state__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ix-space-1);
+  max-width: 480px;
+}
+
+.ix-empty-state__title {
+  margin: 0;
+  font-size: var(--ix-type-section-heading);
+  font-weight: 600;
+  color: var(--ix-text-primary);
+  letter-spacing: 0.02em;
+}
+
+.ix-empty-state--compact .ix-empty-state__title {
+  font-size: var(--ix-type-panel-heading);
+}
+
+.ix-empty-state__description {
+  margin: 0;
+  font-size: var(--ix-type-body);
+  color: var(--ix-text-secondary);
+  line-height: 1.45;
+}
+
+.ix-empty-state--compact .ix-empty-state__description {
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-empty-state__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--ix-space-2);
+}
+
+.ix-empty-state--compact .ix-empty-state__action {
+  margin-top: var(--ix-space-1);
+}

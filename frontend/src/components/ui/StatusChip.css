@@ -1,0 +1,47 @@
+/**
+ * StatusChip Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-metadata);
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px var(--ix-space-2);
+  border-radius: var(--ix-badge-radius);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  user-select: none;
+}
+
+.ix-status-chip--high {
+  color: var(--ix-color-success);
+  border-color: var(--ix-color-success);
+}
+
+.ix-status-chip--moderate {
+  color: var(--ix-color-warning);
+  border-color: var(--ix-color-warning);
+}
+
+.ix-status-chip--limited {
+  color: var(--ix-color-critical);
+  border-color: var(--ix-color-critical);
+}
+
+.ix-status-chip--uncalibrated {
+  color: var(--ix-text-muted);
+  border-color: var(--ix-border-subtle);
+}
+
+.ix-status-chip__icon {
+  font-size: 0.65rem;
+}
+
+.ix-status-chip__value {
+  color: var(--ix-text-secondary);
+}

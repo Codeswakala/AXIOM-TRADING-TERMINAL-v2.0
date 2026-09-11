@@ -1,0 +1,89 @@
+/**
+ * Accordion Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-accordion {
+  display: flex;
+  flex-direction: column;
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-md);
+  background-color: var(--ix-bg-surface);
+  overflow: hidden;
+  font-family: var(--ix-font-sans);
+}
+
+.ix-accordion-item {
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+}
+
+.ix-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.ix-accordion-heading {
+  margin: 0;
+  padding: 0;
+}
+
+.ix-accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ix-space-3) var(--ix-space-4);
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  border: none;
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-accordion-trigger:hover {
+  background-color: var(--ix-bg-surface-muted);
+}
+
+.ix-accordion-trigger:active:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.ix-accordion-trigger:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: -2px;
+}
+
+.ix-accordion-icon {
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-accordion-panel {
+  padding: var(--ix-space-4);
+  background-color: var(--ix-bg-surface);
+  color: var(--ix-text-secondary);
+  font-size: var(--ix-type-body);
+  animation: ix-accordion-slide var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+@keyframes ix-accordion-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-accordion-trigger {
+    transition: none;
+  }
+  .ix-accordion-panel {
+    animation: none;
+  }
+}

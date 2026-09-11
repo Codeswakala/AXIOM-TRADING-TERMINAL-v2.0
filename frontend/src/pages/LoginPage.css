@@ -1,0 +1,809 @@
+/* =========================================================================
+   AXIOM FE-U01 SIGN-IN — cycle 4: REF-003 HOLOGRAPHIC HERO + APPROVED CARD
+   =========================================================================
+   RIGHT CARD: REF-002 build, Operator-approved — styles carried VERBATIM.
+   LEFT HERO: rebuilt to REF-003 (blue holographic 3D terminal): deep-space
+   nebula, dual perspective grids, volumetric candle field with glow and
+   floor reflections, wireframe AXIOM lockup, static-fiction readouts
+   (REF-003-E1), rising scanline.
+
+   Standing laws: zero ad-hoc hex (tokens + rgb()/rgba() forms); ALL motion
+   transform/opacity-only; the FIRST prefers-reduced-motion block freezes
+   every animated layer and nothing re-enables after it.
+   ========================================================================= */
+
+.login-page-container {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  min-height: 100vh;
+  width: 100vw;
+  background: var(--ix-bg-root);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================================
+   LEFT HERO — REF-003 HOLOGRAPHIC TERMINAL
+   ========================================================================= */
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(90vh 70vh at 55% 42%, rgba(37, 99, 235, 0.16), transparent 60%),
+    radial-gradient(70vh 50vh at 25% 70%, rgba(37, 99, 235, 0.1), transparent 55%),
+    linear-gradient(180deg, rgb(2 4 10), rgb(4 7 16) 55%, rgb(2 4 10));
+}
+
+/* ---- the 3D scene (aria-hidden; candle field carries no text) ---- */
+
+.login-decorative-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+/* Blue nebula bloom behind the candle field. */
+.scene-nebula {
+  position: absolute;
+  left: 18%;
+  top: 26%;
+  width: 60%;
+  height: 46%;
+  background:
+    radial-gradient(closest-side, rgba(37, 99, 235, 0.34), rgba(37, 99, 235, 0.12) 55%, transparent 75%);
+  filter: blur(34px);
+  animation: glow-pulse 9s ease-in-out infinite;
+}
+
+/* Soft blue bokeh accents. */
+.scene-bokeh {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: bokeh-breathe 11s ease-in-out infinite;
+}
+
+.bokeh-1 {
+  width: 70px;
+  height: 70px;
+  left: 12%;
+  top: 34%;
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.bokeh-2 {
+  width: 46px;
+  height: 46px;
+  right: 18%;
+  top: 22%;
+  background: rgba(96, 165, 250, 0.16);
+  animation-delay: -4s;
+}
+
+/* Vertical back-wall grid (REF-003's faint standing lattice). */
+.scene-back-grid {
+  position: absolute;
+  inset: 6% 8% 30% 8%;
+  background-image:
+    linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 55% 55%, black 30%, transparent 78%);
+  opacity: 0.7;
+}
+
+/* Perspective floor grid the candles stand on. */
+.scene-floor-grid {
+  position: absolute;
+  width: 220%;
+  height: 200%;
+  left: -60%;
+  bottom: -46%;
+  background-image:
+    linear-gradient(to right, rgba(37, 99, 235, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.18) 1px, transparent 1px);
+  background-size: 52px 52px;
+  transform: rotateX(70deg);
+  transform-origin: 50% 100%;
+  mask-image: radial-gradient(ellipse at 50% 62%, black 16%, transparent 68%);
+  animation: grid-flow 24s linear infinite;
+}
+
+/* Core glow pulse (kept id/behavior from prior cycles). */
+.login-glow-pulse {
+  position: absolute;
+  width: 54vw;
+  height: 44vh;
+  left: 8%;
+  top: 34%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1), transparent 60%);
+  filter: blur(44px);
+  animation: glow-pulse 8s ease-in-out infinite;
+}
+
+/* ---- the volumetric candle field ---- */
+
+.holo-field {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 10%;
+  height: 62%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  transform: rotateX(6deg);
+  transform-style: preserve-3d;
+}
+
+.deco-candle {
+  position: relative;
+  width: 3.1%;
+  border-radius: 3px;
+}
+
+.holo-candle {
+  animation: candle-flicker 6s ease-in-out infinite;
+}
+
+/* Wick above and below. */
+.deco-candle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -34px;
+  bottom: -20px;
+  width: 1.5px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(96, 165, 250, 0.9), rgba(37, 99, 235, 0.4));
+  opacity: 0.8;
+}
+
+/* Floor reflection glow. */
+.deco-candle::after {
+  content: "";
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: -18px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.5);
+  filter: blur(9px);
+  opacity: 0.5;
+}
+
+/* REF-003 palette: monochrome blue holography — solid vs hollow bodies. */
+.deco-candle.solid {
+  background: linear-gradient(180deg, rgba(147, 197, 253, 0.95), rgba(37, 99, 235, 0.55));
+  box-shadow:
+    0 0 22px rgba(37, 99, 235, 0.55),
+    0 0 60px rgba(37, 99, 235, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.deco-candle.hollow {
+  background: rgba(11, 18, 36, 0.55);
+  border: 1.5px solid rgba(96, 165, 250, 0.85);
+  box-shadow:
+    0 0 18px rgba(37, 99, 235, 0.4),
+    inset 0 0 14px rgba(37, 99, 235, 0.25);
+}
+
+/* Per-candle animation phases. */
+.holo-c1 { animation-delay: -1s; }
+.holo-c2 { animation-delay: -2s; }
+.holo-c3 { animation-delay: -3s; }
+.holo-c4 { animation-delay: -4s; }
+.holo-c5 { animation-delay: -5s; }
+
+/* Slow rising scanline across the whole stage. */
+.scene-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  bottom: -120px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(96, 165, 250, 0.06) 45%,
+    rgba(147, 197, 253, 0.1) 50%,
+    rgba(96, 165, 250, 0.06) 55%,
+    transparent
+  );
+  animation: scan-rise 12s linear infinite;
+}
+
+/* ---- motion system: transform/opacity ONLY ---- */
+
+@keyframes bokeh-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+@keyframes candle-flicker {
+  0%, 100% {
+    transform: scaleY(1);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scaleY(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+}
+
+@keyframes grid-flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 52px;
+  }
+}
+
+@keyframes scan-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+/* ---- hero foreground content ---- */
+
+/* Static-fiction readouts (REF-003-E1): monospace, image-frozen values. */
+.hero-readouts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: var(--ix-font-mono);
+  z-index: 1;
+}
+
+.readout {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.readout-tickers {
+  top: 7%;
+  right: 6%;
+  align-items: flex-end;
+}
+
+.ticker-row {
+  display: flex;
+  gap: 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(147, 197, 253, 0.9);
+  text-shadow: 0 0 12px rgba(37, 99, 235, 0.6);
+}
+
+.tick-sym {
+  color: rgba(96, 165, 250, 0.75);
+}
+
+.ticker-delta {
+  margin-top: 6px;
+  color: rgba(147, 197, 253, 1);
+}
+
+.readout-feed {
+  left: 6%;
+  bottom: 7%;
+}
+
+.readout-stats {
+  right: 6%;
+  bottom: 7%;
+  align-items: flex-end;
+}
+
+.feed-row {
+  display: flex;
+  gap: 14px;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: rgba(147, 197, 253, 0.85);
+  text-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+.feed-key {
+  color: rgba(96, 165, 250, 0.65);
+  min-width: 84px;
+}
+
+.readout-stats .feed-key {
+  min-width: 48px;
+}
+
+.feed-live {
+  color: rgba(147, 197, 253, 1);
+  font-weight: 700;
+}
+
+/* Wireframe brand lockup (REF-003 top-left). */
+.hero-lockup {
+  position: absolute;
+  top: 7%;
+  left: 7%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wire-mark {
+  display: flex;
+  filter: drop-shadow(0 0 14px rgba(37, 99, 235, 0.5));
+}
+
+.wire-word {
+  font-size: 2.4rem;
+  font-weight: 300;
+  letter-spacing: 0.52em;
+  color: rgba(226, 232, 240, 0.95);
+  text-shadow: 0 0 24px rgba(37, 99, 235, 0.55);
+}
+
+.wire-sub {
+  font-family: var(--ix-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  color: rgba(96, 165, 250, 0.8);
+  text-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+}
+
+/* =========================================================================
+   RIGHT AUTH PANEL — APPROVED (REF-002); carried verbatim
+   ========================================================================= */
+
+.auth-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ix-space-6);
+  background: linear-gradient(160deg, rgba(26, 31, 44, 0.35), var(--ix-bg-root) 70%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 470px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-4);
+  padding: var(--ix-space-7, 36px) var(--ix-space-7, 36px) var(--ix-space-6);
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: linear-gradient(170deg, rgba(26, 31, 44, 0.55), rgba(11, 14, 20, 0.85));
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.lockup-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lockup-words {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.lockup-words strong {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+}
+
+.lockup-words em {
+  font-style: normal;
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  color: var(--ix-text-muted);
+}
+
+.auth-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ix-space-3);
+  margin-bottom: var(--ix-space-2);
+}
+
+.auth-status-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--ix-space-2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--ix-border-subtle);
+  background: rgba(11, 14, 20, 0.5);
+}
+
+.gov-pill-unverified {
+  color: var(--ix-text-muted);
+  font-weight: 500;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+}
+
+.chip-sep {
+  color: var(--ix-text-muted);
+}
+
+.reachability-chip {
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.reachability-checking {
+  color: var(--ix-text-muted);
+}
+
+.reachability-reachable {
+  color: var(--ix-color-success-green);
+}
+
+.reachability-unreachable {
+  color: var(--ix-color-warning-amber);
+}
+
+.auth-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-2);
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 720;
+  letter-spacing: -0.01em;
+}
+
+.auth-sub {
+  margin: 0;
+  color: var(--ix-text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-alert {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  padding: var(--ix-space-3);
+  border-radius: 10px;
+  font-size: 0.84rem;
+}
+
+.auth-alert-credentials {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.42);
+  color: var(--ix-color-critical-red);
+}
+
+.auth-alert-transport {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  color: var(--ix-color-warning-amber);
+}
+
+.auth-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ix-space-2);
+  padding: var(--ix-space-3);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  color: var(--ix-text-secondary);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-4);
+}
+
+.field-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  color: var(--ix-text-muted);
+  pointer-events: none;
+}
+
+.field-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 46px 0 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(11, 14, 20, 0.6);
+  color: var(--ix-text-primary);
+  font-size: 0.92rem;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.field-input::placeholder {
+  color: var(--ix-text-muted);
+}
+
+.field-input:focus {
+  outline: 2px solid var(--ix-color-success-green);
+  outline-offset: 1px;
+  border-color: var(--ix-color-success-green);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+}
+
+.field-reveal {
+  position: absolute;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ix-text-muted);
+  cursor: pointer;
+}
+
+.field-reveal:focus {
+  outline: 2px solid var(--ix-color-success-green);
+}
+
+.auth-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.84rem;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  cursor: pointer;
+  user-select: none;
+  color: var(--ix-text-secondary);
+}
+
+.remember-box {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: var(--ix-color-success-green);
+}
+
+.forgot-link,
+.register-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.84rem;
+  color: var(--ix-color-success-green);
+  cursor: pointer;
+}
+
+.forgot-link:hover,
+.register-link:hover {
+  text-decoration: underline;
+}
+
+.forgot-link:focus,
+.register-link:focus {
+  outline: 2px solid var(--ix-color-success-green);
+  outline-offset: 2px;
+}
+
+.auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ix-space-2);
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(
+    92deg,
+    var(--ix-color-success-green),
+    rgba(16, 185, 129, 0.82)
+  );
+  color: var(--ix-bg-root);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(16, 185, 129, 0.3);
+  transition: filter 140ms ease, transform 140ms ease;
+}
+
+.auth-submit:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.auth-submit:focus {
+  outline: 2px solid var(--ix-color-success-green);
+  outline-offset: 2px;
+}
+
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+  transform: none;
+}
+
+.submit-arrow {
+  font-size: 1.05rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-3);
+}
+
+.divider-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.divider-word {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--ix-text-muted);
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ix-space-2);
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(11, 14, 20, 0.4);
+  color: var(--ix-text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.google-btn:hover {
+  border-color: rgba(148, 163, 184, 0.4);
+  background: rgba(26, 31, 44, 0.6);
+}
+
+.google-btn:focus {
+  outline: 2px solid var(--ix-color-success-green);
+  outline-offset: 2px;
+}
+
+.google-mark {
+  display: flex;
+}
+
+.auth-register-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ix-space-2);
+  font-size: 0.84rem;
+  color: var(--ix-text-secondary);
+}
+
+/* =========================================================================
+   RESPONSIVE & REDUCED MOTION
+   ========================================================================= */
+
+@media (max-width: 960px) {
+  .login-page-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    display: none;
+  }
+
+  .auth-panel {
+    padding: var(--ix-space-4);
+    min-height: 100vh;
+  }
+
+  .auth-card {
+    max-width: 440px;
+    padding: var(--ix-space-6) var(--ix-space-5, 24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* THE FREEZE BLOCK: every animated layer stops; nothing re-enables. */
+  .scene-bokeh,
+  .bokeh-1,
+  .bokeh-2,
+  .deco-candle,
+  .holo-candle,
+  .login-glow-pulse,
+  .scene-nebula,
+  .scene-floor-grid,
+  .scene-scanline,
+  .login-decorative-scene {
+    animation: none !important;
+  }
+
+  .auth-submit {
+    transition: none;
+  }
+
+  .auth-submit:hover:not(:disabled) {
+    transform: none;
+  }
+}

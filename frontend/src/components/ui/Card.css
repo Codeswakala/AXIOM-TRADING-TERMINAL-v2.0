@@ -1,0 +1,66 @@
+/**
+ * Card Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ix-card-bg);
+  border: var(--ix-border-width) solid var(--ix-card-border);
+  border-radius: var(--ix-card-radius);
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  overflow: hidden;
+  box-shadow: var(--ix-elevation-level-2, transparent);
+  transition: border-color var(--ix-motion-fast) var(--ix-motion-ease),
+              transform var(--ix-motion-fast) var(--ix-motion-ease),
+              box-shadow var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-card--raised {
+  background-color: var(--ix-bg-surface-raised);
+  border-color: var(--ix-border-strong);
+  box-shadow: var(--ix-elevation-level-3, var(--ix-elevation-overlay));
+}
+
+.ix-card--interactive {
+  cursor: pointer;
+}
+
+.ix-card--interactive:hover {
+  border-color: var(--ix-color-accent);
+}
+
+.ix-card--interactive:active {
+  transform: scale(0.99);
+  filter: brightness(0.98);
+}
+
+.ix-card--interactive:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+.ix-card__header {
+  padding: var(--ix-space-3) var(--ix-space-4);
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-surface-muted);
+}
+
+.ix-card__body {
+  padding: var(--ix-card-padding, var(--ix-space-4));
+  flex: 1;
+}
+
+.ix-card__footer {
+  padding: var(--ix-space-3) var(--ix-space-4);
+  border-top: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-surface-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-card {
+    transition: none;
+    transform: none !important;
+  }
+}

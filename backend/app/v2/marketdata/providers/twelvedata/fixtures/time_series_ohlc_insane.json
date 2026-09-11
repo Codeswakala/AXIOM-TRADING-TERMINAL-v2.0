@@ -1,0 +1,8 @@
+{
+  "_fixture_note": "OHLC sanity violation test sample (low > high)",
+  "meta": {"symbol": "EUR/USD", "interval": "1min"},
+  "values": [
+    {"datetime": "2026-08-20 10:00:00", "open": "1.10040", "high": "1.10000", "low": "1.10100", "close": "1.10060"}
+  ],
+  "status": "ok"
+}

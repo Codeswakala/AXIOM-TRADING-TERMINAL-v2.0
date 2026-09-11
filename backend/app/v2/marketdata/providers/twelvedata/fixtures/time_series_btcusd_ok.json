@@ -1,0 +1,9 @@
+{
+  "_fixture_note": "static candidate documentation sample; not live data; no secret",
+  "meta": {"symbol": "BTC/USD", "interval": "1min", "type": "Digital Currency"},
+  "values": [
+    {"datetime": "2026-08-20 10:01:00", "open": "42010.00", "high": "42055.00", "low": "41990.00", "close": "42040.00", "volume": "12.5"},
+    {"datetime": "2026-08-20 10:00:00", "open": "42000.00", "high": "42030.00", "low": "41980.00", "close": "42010.00", "volume": "10.1"}
+  ],
+  "status": "ok"
+}

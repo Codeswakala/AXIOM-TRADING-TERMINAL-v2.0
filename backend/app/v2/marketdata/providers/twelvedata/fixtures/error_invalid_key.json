@@ -1,0 +1,6 @@
+{
+  "_fixture_note": "static candidate documentation error-shape sample; the value below is a documentation placeholder, not a secret",
+  "code": 401,
+  "message": "**apikey** parameter is incorrect or not specified",
+  "status": "error"
+}

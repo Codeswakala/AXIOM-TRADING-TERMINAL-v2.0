@@ -1,0 +1,2870 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260906174742
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 12512
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\BE9_FIRSTSYNC_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # ================= BE-9 FIRST ROUTINE SYNC — FULL WITNESSED RUN =================
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $ErrorActionPreference = "Stop"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Set-Location C:\Users\victo\.vscode\AXIOM\axiom
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $Base = "http://127.0.0.1:8000"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $BR   = "$Base/api/v1/v2/broker"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $GATE_BEFORE = "56bf19227afcef91fda74a038ed002489e59723411f4a964e69a869cb9507c86"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- port must be free ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if (Get-NetTCPConnection -LocalPort 8000 -State Listen -EA SilentlyContinue) {
+    throw "port 8000 already in use - close the old app window, then re-run" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- bring the app up as a background job (fielded file) ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $app = Start-Job -Name be9app -ScriptBlock {
+    param($dir)
+    Set-Location $dir
+    $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/axiom_dev.db"
+    python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+} -ArgumentList "C:\Users\victo\.vscode\AXIOM\axiom\backend"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $up = $false
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) 1..40 | ForEach-Object {
+    if (Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue) { $up = $true }
+    if ($up) { break }; Start-Sleep -Seconds 1
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if (-not $up) { Receive-Job $app; Stop-Job $app; throw "app never came up - paste everything" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "app is up."
+app is up.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- login (no echo) ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $pw  = Read-Host -AsSecureString "operator password"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $lp  = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
+       [Runtime.InteropServices.Marshal]::SecureStringToBSTR($pw))
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $r   = Invoke-RestMethod -Method POST -Uri "$Base/api/v1/auth/login" `
+       -ContentType 'application/json' `
+       -Body (@{ username = 'admin'; password = $lp } | ConvertTo-Json)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $lp  = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $tok = $r.tokens.access_token
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if (-not $tok) { throw "token empty - paste the login payload" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $H = @{ Authorization = "Bearer $tok" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "token acquired: True"
+token acquired: True
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- F-4 vault intent + health ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== F-4 =="
+== F-4 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Invoke-RestMethod -Method POST -Uri "$BR/vault"  -Headers $H -ContentType 'application/json' -Body '{"action":"unlock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "unlock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:01.600340+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Invoke-RestMethod -Method GET  -Uri "$BR/health" -Headers $H | ConvertTo-Json -Depth 8
+{
+    "provider_id":  null,
+    "environment":  "practice",
+    "terminal":  "unknown",
+    "reachability":  "unknown",
+    "freshness_age_hours":  null,
+    "status":  "terminal_down",
+    "last_sync_run":  null,
+    "last_success_basis":  null,
+    "last_refusal_class":  null,
+    "read_only_login_asserted":  null,
+    "vault_state":  "locked",
+    "unowned_discrepancies":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:01.798754+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- F-5 THE SYNC ACT ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== F-5 =="
+== F-5 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $sync = Invoke-RestMethod -Method POST -Uri "$BR/sync" -Headers $H `
+        -ContentType 'application/json' -Body '{"provider_id":"exness_mt5_demo"}'
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $sync | ConvertTo-Json -Depth 8
+{
+    "outcome":  "complete",
+    "sync_run_id":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "result_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+    "page_counts":  {
+                        "accounts":  1,
+                        "balances":  1,
+                        "positions":  0,
+                        "orders":  0,
+                        "fills":  1,
+                        "instrument_permissions":  319
+                    },
+    "fills_reused":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:03.438770+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if ($sync.outcome -ne "complete") { throw "STOP-LAW 1: sync outcome = $($sync.outcome)" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- F-6 reconcile ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== F-6 =="
+== F-6 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $rec = Invoke-RestMethod -Method POST -Uri "$BR/reconcile" -Headers $H `
+       -ContentType 'application/json' -Body (@{ sync_run_id = $sync.sync_run_id } | ConvertTo-Json)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $rec | ConvertTo-Json -Depth 8
+{
+    "outcome":  "clean",
+    "reconcile_run_id":  "44eef652-ce1a-43f9-9512-a21e2f8729a4",
+    "discrepancy_count":  0,
+    "broker_side_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+    "projection_side_digest":  "5d3876c4e686fb3b86e3804c498230e3b0ef6434f9209b1106b44dcf1208db10",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:04.281868+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if ($rec.outcome -notin @("clean","complete")) { throw "STOP-LAW 3: reconcile outcome = $($rec.outcome)" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- F-7 readbacks (watch /accounts -> read_only_login: true) ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== F-7 =="
+== F-7 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) foreach ($p in @("/accounts","/balances","/positions","/orders","/fills",
+                 "/instrument-permissions","/discrepancies","/health")) {
+    "-- GET $p --"
+    Invoke-RestMethod -Method GET -Uri "$BR$p" -Headers $H | ConvertTo-Json -Depth 8
+}
+-- GET /accounts --
+{
+    "accounts":  [
+                     {
+                         "id":  "af93aa2f-547c-40e7-ac05-ea06bad36dff",
+                         "broker_account_ext_id":  "476910140",
+                         "record_seq":  1,
+                         "alias":  "AXIOM",
+                         "currency":  "USD",
+                         "environment":  "practice",
+                         "read_only_login":  false,
+                         "provider_id":  "exness_mt5_demo"
+                     }
+                 ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.241446+00:00"
+}
+-- GET /balances --
+{
+    "balances":  [
+                     {
+                         "id":  "13a9dc4f-8ef7-4a83-afda-f6a71170388d",
+                         "broker_account_ext_id":  "476910140",
+                         "balance":  "10000.0",
+                         "margin_used":  "0.0",
+                         "margin_available":  "10000.0",
+                         "unrealized_pl":  "0.0",
+                         "currency":  "USD",
+                         "sync_run_id":  "f2870e2f-6345-4022-873d-5e53f89fa6f6"
+                     }
+                 ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.357136+00:00"
+}
+-- GET /positions --
+{
+    "positions":  [
+
+                  ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.424408+00:00"
+}
+-- GET /orders --
+{
+    "orders":  [
+
+               ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.465391+00:00"
+}
+-- GET /fills --
+{
+    "fills":  [
+                  {
+                      "id":  "8fcedf13-26e9-4151-b153-3943ed209837",
+                      "transaction_ext_id":  "2634757541",
+                      "tx_type_ext":  "2",
+                      "instrument_ext_id":  "",
+                      "units":  "0.0",
+                      "price":  "0.0",
+                      "tx_time_ext":  "1788603200"
+                  }
+              ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.509730+00:00"
+}
+-- GET /instrument-permissions --
+{
+    "instrument_permissions":  [
+                                   {
+                                       "id":  "dac32e51-5184-47c3-86d2-30644309a67a",
+                                       "instrument_ext_id":  "SPCXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Space Exploration Technologies Corp. (SpaceX) Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "da0bcc52-6796-451d-904c-e8d03bf70328",
+                                       "instrument_ext_id":  "METAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Meta Platforms, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0bb92baa-b1c8-476e-bc64-ba0305c95b48",
+                                       "instrument_ext_id":  "ZTOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "ZTO Express (Cayman) Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "82cfb089-5b10-4314-8c81-e3448f686da7",
+                                       "instrument_ext_id":  "YUMCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Yum China Holdings, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2939fb9c-b5df-40c1-984c-b2e7b2bfc81d",
+                                       "instrument_ext_id":  "XPEVm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "XPeng Inc. ",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "df29bb0d-a7ce-4341-b435-fe62d8453649",
+                                       "instrument_ext_id":  "VIPSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Vipshop Holdings Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3d07c059-3f44-43ba-8152-66a2a53667d1",
+                                       "instrument_ext_id":  "TSMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Taiwan Semiconductor Manufacturing Company Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b41437de-fd75-481b-b51c-c5007b80cbe5",
+                                       "instrument_ext_id":  "TMEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Tencent Music Entertainment Group",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "c6a3e0da-6261-4687-95f6-b14016cb4c82",
+                                       "instrument_ext_id":  "TIGRm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Up Fintech Holding Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f24bd3bd-09c5-48d9-8118-470ccc9c7e59",
+                                       "instrument_ext_id":  "TALm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "TAL Education Group",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f554ab24-1351-4106-8baf-ac53ad337452",
+                                       "instrument_ext_id":  "RLXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "RLX Technology Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6af1c4f3-9a75-4b3a-a1a3-641b42ddb395",
+                                       "instrument_ext_id":  "PDDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Pinduoduo Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d04853a2-7441-4d6a-8d67-8b0b75cc7764",
+                                       "instrument_ext_id":  "NTESm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NetEase, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b6278754-b97f-4bc2-a60e-96846357e41f",
+                                       "instrument_ext_id":  "NIOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NIO Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7ef037f3-2812-44ff-93ce-d413a33cc555",
+                                       "instrument_ext_id":  "LIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Li Auto Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "183bf7e9-46ef-484e-9055-279f41095030",
+                                       "instrument_ext_id":  "JDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "JD.com, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "fff983d8-8689-4460-8ad7-77d3f9f41592",
+                                       "instrument_ext_id":  "IQm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "IQIYI Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "15fe38f5-12ed-415e-9b89-cb47d484ff7d",
+                                       "instrument_ext_id":  "FUTUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Futu Holdings Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "381ddd4f-cd7a-41b5-a9e1-86c489ad50cf",
+                                       "instrument_ext_id":  "FTNTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Fortinet, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "ee413800-f63f-42af-9694-ed77eb820759",
+                                       "instrument_ext_id":  "EDUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "New Oriental Education \u0026 Technology Group Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1f529063-a0d2-4273-a35f-da83737db31e",
+                                       "instrument_ext_id":  "CANm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Canaan Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "a4749242-d1fd-4e10-b56d-df2f75c1c4bd",
+                                       "instrument_ext_id":  "BYNDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Beyond Meat Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4bf31a6b-ca7c-4177-80c1-7acc6d6def4c",
+                                       "instrument_ext_id":  "BRQSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Borqs Technologies Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "a0d49068-4739-4a3f-849a-5fcdf1ac4592",
+                                       "instrument_ext_id":  "BILIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bilibili Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6a6ad31f-11f5-4fc0-8db3-0065d4414fc7",
+                                       "instrument_ext_id":  "BIDUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Baidu, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "525b37d6-8154-40ee-ba33-63347934c0dc",
+                                       "instrument_ext_id":  "BEKEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "KE Holdings Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "90716058-5f10-4099-a2a6-c65b052abecb",
+                                       "instrument_ext_id":  "BBBYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Bed Bath \u0026 Beyond Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7c02841f-db51-4088-a88a-84c72af1ccc8",
+                                       "instrument_ext_id":  "BBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "BlackBerry Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "fed30530-16d2-4efd-aba6-e6aff1ab145c",
+                                       "instrument_ext_id":  "AMCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "AMC Entertainment Holdings, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5c1f40f0-b1e4-4578-99f6-22bb84f72025",
+                                       "instrument_ext_id":  "XOMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Exxon Mobil Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "fd92aadc-8fcc-4dea-a834-2eb88de6dac7",
+                                       "instrument_ext_id":  "WMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Walmart Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6c6fdec5-1326-4020-96c8-85e9496de781",
+                                       "instrument_ext_id":  "WFCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Wells Fargo \u0026 Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1575c51b-cc51-4c16-80f3-5b4a5cdbb7e6",
+                                       "instrument_ext_id":  "VZm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Verizon Communications Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "252fc930-2c03-4750-a6c2-77d489edf668",
+                                       "instrument_ext_id":  "VRTXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Vertex Pharmaceuticals Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4c56ec7b-d9fe-42a0-9fca-8b6458baf035",
+                                       "instrument_ext_id":  "Vm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Visa Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "70854258-960a-413b-840a-f7f2d5dfef73",
+                                       "instrument_ext_id":  "UPSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "United Parcel Service, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "06626af6-b9b3-422c-99db-d288508e4c93",
+                                       "instrument_ext_id":  "UNHm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "UnitedHealth Group Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6131a3f8-5474-464e-8edb-224c417d24c2",
+                                       "instrument_ext_id":  "TSLAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Tesla Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3c4f01e4-5860-4d45-892b-80d7cf77f7e4",
+                                       "instrument_ext_id":  "TMUSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "T-Mobile US, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "725e7cbe-aaf3-41ad-8da1-cee3b082e771",
+                                       "instrument_ext_id":  "TMOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Thermo Fisher Scientific Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "37f48774-5fda-4828-856c-bd0e60438b84",
+                                       "instrument_ext_id":  "Tm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "AT\u0026T Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2b13d82a-8386-46f4-a8dc-b806448068eb",
+                                       "instrument_ext_id":  "SBUXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Starbucks Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "69bb50e7-0dd0-4205-9301-5e288750602e",
+                                       "instrument_ext_id":  "REGNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Regeneron Pharmaceuticals, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "40b3bcab-dd06-4df7-a381-562f2d851e16",
+                                       "instrument_ext_id":  "PYPLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "PayPal Holdings, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "997fc819-8ca8-4e62-a125-c1be2e3a04d8",
+                                       "instrument_ext_id":  "PMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Philip Morris International Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b3014011-01cd-400e-9919-78b54e55ea2b",
+                                       "instrument_ext_id":  "PGm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Procter \u0026 Gamble Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4de2a231-a0b2-43bf-93a2-790cd2814b76",
+                                       "instrument_ext_id":  "PFEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Pfizer, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "54eecf4d-419f-42b0-a4da-3c71098e776e",
+                                       "instrument_ext_id":  "PEPm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "PepsiCo, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "40759410-b069-4a7d-a4c6-adbcfab7ae12",
+                                       "instrument_ext_id":  "ORCLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Oracle Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "77d57156-cffd-4a3e-8463-19f3c4c1b2c9",
+                                       "instrument_ext_id":  "NVDAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NVIDIA Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "69b1c0a6-13a5-4da4-a3b8-6f1971dfdd44",
+                                       "instrument_ext_id":  "NKEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Nike, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "62df8312-1ae7-47af-9ed0-87ae84b238fb",
+                                       "instrument_ext_id":  "NFLXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Netflix, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "e72ec8e3-cef5-41d7-8c2b-ff56656796db",
+                                       "instrument_ext_id":  "MSFTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Microsoft Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "aaacaf9e-cc23-486d-a68f-a330fd7a94c5",
+                                       "instrument_ext_id":  "MSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Morgan Stanley",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9bcd2706-0fdf-4371-8445-f1f4387ba685",
+                                       "instrument_ext_id":  "MRKm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Merck \u0026 Company, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "c7e70353-40e0-47b1-be0d-a8825c19757c",
+                                       "instrument_ext_id":  "MOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Altria Group, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9895432a-7351-4f4c-a4fe-c730d29f9f13",
+                                       "instrument_ext_id":  "MMMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "3M Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7b66a115-b545-47da-bbb3-fc83df6cc4e0",
+                                       "instrument_ext_id":  "MDLZm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Mondelez International, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "339e2839-e012-4fdf-80d4-87d910c59efa",
+                                       "instrument_ext_id":  "MCDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "McDonalds Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d3bf67ed-6587-409f-8ea3-06e13eb89025",
+                                       "instrument_ext_id":  "MAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Mastercard Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cc4cb215-d7c8-4101-bfd7-652a6af37b48",
+                                       "instrument_ext_id":  "LMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Lockheed Martin Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "bb34ba1a-7868-4996-8117-ee00ac6153cd",
+                                       "instrument_ext_id":  "LLYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Eli Lilly and Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7b69275b-af1f-4477-8040-6ebe1891b0ee",
+                                       "instrument_ext_id":  "LINm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Linde plc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4baf6bd7-2045-4135-9b16-bbfa8dc20dfc",
+                                       "instrument_ext_id":  "KOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Coca-Cola Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9c8d5d9b-70e9-4696-9b4b-c0359dcb8de9",
+                                       "instrument_ext_id":  "JPMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "J P Morgan Chase \u0026 Co",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "62dfc706-f069-4667-8d39-73b1915fd249",
+                                       "instrument_ext_id":  "JNJm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Johnson \u0026 Johnson",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5990992d-b3da-49a5-9aa1-dc55201fd9a9",
+                                       "instrument_ext_id":  "ISRGm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intuitive Surgical, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2c621225-ee64-4371-9502-4ffe3f3b3e38",
+                                       "instrument_ext_id":  "INTUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intuit Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5de84077-4da3-4f81-bfa0-282842790944",
+                                       "instrument_ext_id":  "INTCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intel Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "99b3f297-2ade-4787-ae87-c13014fba230",
+                                       "instrument_ext_id":  "IBMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "International Business Machines Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "22be5851-0e47-4323-8849-a14ead0a9e8a",
+                                       "instrument_ext_id":  "HDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Home Depot, Inc. (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0bc84897-7b8c-4834-8ba7-897183df6fe2",
+                                       "instrument_ext_id":  "GOOGLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Alphabet Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6176a6cc-d607-47ba-8e53-d40c3be8958b",
+                                       "instrument_ext_id":  "GILDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Gilead Sciences, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "eca74e28-1d47-452b-ae1d-0ed3923203dc",
+                                       "instrument_ext_id":  "FBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "3"
+                                                      },
+                                       "display_name":  "Facebook, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9fbf4b85-3446-4cb2-879a-658803820546",
+                                       "instrument_ext_id":  "Fm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Ford Motor Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9018df31-0519-4623-844a-fce05d4cfb6d",
+                                       "instrument_ext_id":  "EQIXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Equinix, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "8bf6dec0-6485-4668-9585-d5f2c5871680",
+                                       "instrument_ext_id":  "EBAYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "eBay Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4e7b9ea7-f8f8-4807-b105-ae1b2840c801",
+                                       "instrument_ext_id":  "EAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Electronic Arts Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1f24ce19-989c-4521-9445-f18a1937d47b",
+                                       "instrument_ext_id":  "CVSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CVS Health Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3120e2a3-928e-4727-92c6-f47b6010e669",
+                                       "instrument_ext_id":  "CSXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CSX Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "67f23b30-9e4c-4447-82fe-3a7022bd6e7f",
+                                       "instrument_ext_id":  "CSCOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Cisco Systems, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "bfb69d1e-1637-4514-9973-f6ca4f84a339",
+                                       "instrument_ext_id":  "COSTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Costco Wholesale Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b3a66ebf-1a80-4fa0-b7d7-a94b8adda9c0",
+                                       "instrument_ext_id":  "CMEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CME Group Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7163aabb-cae9-433f-9e16-138b112ff413",
+                                       "instrument_ext_id":  "CMCSAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Comcast Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1155a6eb-ba4c-487b-ab82-bf715112f8d7",
+                                       "instrument_ext_id":  "CHTRm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Charter Communications, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "ce64b672-0e01-4376-a690-fa324c654221",
+                                       "instrument_ext_id":  "Cm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Citigroup Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "37e857ce-2ed7-4dcb-a3fc-8c77fb4f00c3",
+                                       "instrument_ext_id":  "BMYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bristol-Myers Squibb Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4a847179-145e-471c-8d67-d92f02f3c033",
+                                       "instrument_ext_id":  "BIIBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Biogen Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d0d21f62-260d-4ead-8118-19312a7802d6",
+                                       "instrument_ext_id":  "BACm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bank of America Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "214f488a-a864-46b3-8305-0399e6a763d9",
+                                       "instrument_ext_id":  "BABAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Alibaba Group Holding Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "028646a0-81b7-4fdc-997b-e2306d05e03a",
+                                       "instrument_ext_id":  "BAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Boeing Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2e0e9356-9b71-4409-883c-98ba4465f7dd",
+                                       "instrument_ext_id":  "AVGOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Broadcom Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b94ad1bb-cbd5-4a09-824c-7cd339569d63",
+                                       "instrument_ext_id":  "ATVIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Activision Blizzard, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "00cc5225-4b27-45e5-b3d0-d7d5d63f3e38",
+                                       "instrument_ext_id":  "AMZNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Amazon.com, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "98ed6b3b-9a94-4978-a558-cf59cbe47d5d",
+                                       "instrument_ext_id":  "AMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "American Tower Corporation (REIT)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cd40d048-9af3-4c88-aa68-4026e7a58873",
+                                       "instrument_ext_id":  "AMGNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Amgen Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2f1cfa6e-30b7-4ecb-934e-147468a092c6",
+                                       "instrument_ext_id":  "AMDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Advanced Micro Devices, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "039088da-05ac-46cb-9985-940605daaf83",
+                                       "instrument_ext_id":  "ADPm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Automatic Data Processing, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "90a10daf-b430-4ce2-a6c8-8a5259dbca74",
+                                       "instrument_ext_id":  "ADBEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Adobe Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2a8f454c-6151-4dcf-9f8d-b03e83a8a6d4",
+                                       "instrument_ext_id":  "ABTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Abbott Laboratories",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   }
+                               ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.566298+00:00"
+}
+-- GET /discrepancies --
+{
+    "discrepancies":  [
+
+                      ],
+    "reconcile_runs":  [
+                           {
+                               "id":  "44eef652-ce1a-43f9-9512-a21e2f8729a4",
+                               "outcome":  "clean",
+                               "discrepancy_count":  0,
+                               "broker_side_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+                               "projection_side_digest":  "5d3876c4e686fb3b86e3804c498230e3b0ef6434f9209b1106b44dcf1208db10"
+                           }
+                       ],
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.646207+00:00"
+}
+-- GET /health --
+{
+    "provider_id":  "exness_mt5_demo",
+    "environment":  "practice",
+    "terminal":  "logged_in",
+    "reachability":  "reachable",
+    "freshness_age_hours":  0.0009570325000000001,
+    "status":  "green",
+    "last_sync_run":  {
+                          "id":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+                          "outcome":  "complete",
+                          "basis":  "2026-09-06 14:49:03.266894"
+                      },
+    "last_success_basis":  "2026-09-06 14:49:03.266894",
+    "last_refusal_class":  null,
+    "read_only_login_asserted":  false,
+    "vault_state":  "locked",
+    "unowned_discrepancies":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:06.712340+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) $acct = Invoke-RestMethod -Method GET -Uri "$BR/accounts" -Headers $H
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) if ($acct.accounts[0].read_only_login -ne $true) { throw "STOP-LAW 2: read_only_login is NOT true - investor posture violated" }
+>> TerminatingError(): "STOP-LAW 2: read_only_login is NOT true - investor posture violated"
+STOP-LAW 2: read_only_login is NOT true - investor posture violated
+STOP-LAW 2: read_only_login is NOT true - investor posture violated
+At line:1 char:52
++ ... ne $true) { throw "STOP-LAW 2: read_only_login is NOT true - investor ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (STOP-LAW 2: rea...osture violated:String) [], RuntimeException
+    + FullyQualifiedErrorId : STOP-LAW 2: read_only_login is NOT true - investor posture violated
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- F-8 lock x2 + teardown ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== F-8 =="
+== F-8 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Invoke-RestMethod -Method POST -Uri "$BR/vault" -Headers $H -ContentType 'application/json' -Body '{"action":"lock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "lock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:07.402472+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Invoke-RestMethod -Method POST -Uri "$BR/vault" -Headers $H -ContentType 'application/json' -Body '{"action":"lock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "lock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T14:49:07.535213+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Stop-Job $app; Remove-Job $app; $tok = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) # --- post-gate ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) @'
+import hashlib, sqlite3
+b = open(r"C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db", "rb").read()
+print("gate sha AFTER:", hashlib.sha256(b).hexdigest())
+print("(BEFORE was: 56bf19227afcef91fda74a038ed002489e59723411f4a964e69a869cb9507c86)")
+c = sqlite3.connect(r"file:C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db?mode=ro", uri=True)
+for t in ["v2_broker_sync_run","v2_broker_account","v2_broker_balance","v2_broker_position",
+          "v2_broker_order","v2_broker_fill","v2_broker_instrument_permission",
+          "v2_broker_discrepancy","v2_broker_reconcile_run"]:
+    print(f"{t}:", c.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0])
+print("rev:", c.execute("SELECT version_num FROM alembic_version").fetchall())
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "== RUN COMPLETE - 9 expectations to eyeball: sha AFTER must DIFFER from BEFORE; sync_run >= 1; account 1; balance 1;"
+== RUN COMPLETE - 9 expectations to eyeball: sha AFTER must DIFFER from BEFORE; sync_run >= 1; account 1; balance 1;
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) "permissions ~319; rev still 20260905_0049; read_only_login printed true; reconcile clean; vault locks recorded. =="
+permissions ~319; rev still 20260905_0049; read_only_login printed true; reconcile clean; vault locks recorded. ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+(.venv) Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260906174930
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20260906180251
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 17968
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\BE9_FIRSTSYNC_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS># ================= BE-9 FIRST ROUTINE SYNC — RERUN (investor posture) =================
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$confirm = Read-Host "MT5 journal shows 'investor mode'? type EXACTLY: investor"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if ($confirm -ne "investor") { throw "posture not confirmed - do not proceed" }
+>> TerminatingError(): "posture not confirmed - do not proceed"
+posture not confirmed - do not proceed
+posture not confirmed - do not proceed
+At line:1 char:32
++ ... rm -ne "investor") { throw "posture not confirmed - do not proceed" }
++                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (posture not confirmed - do not proceed:String) [], RuntimeException
+    + FullyQualifiedErrorId : posture not confirmed - do not proceed
+
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$ErrorActionPreference = "Stop"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Set-Location C:\Users\victo\.vscode\AXIOM\axiom
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$Base = "http://127.0.0.1:8000"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$BR   = "$Base/api/v1/v2/broker"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if (Get-NetTCPConnection -LocalPort 8000 -State Listen -EA SilentlyContinue) {
+    throw "port 8000 already in use - close the old app window, then re-run" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$app = Start-Job -Name be9app2 -ScriptBlock {
+    param($dir)
+    Set-Location $dir
+    $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/axiom_dev.db"
+    python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+} -ArgumentList "C:\Users\victo\.vscode\AXIOM\axiom\backend"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$up = $false
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>1..40 | ForEach-Object {
+    if (Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue) { $up = $true }
+    if ($up) { break }; Start-Sleep -Seconds 1
+}
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if (-not $up) { Receive-Job $app; Stop-Job $app; throw "app never came up - paste everything" }
+**********************
+Windows PowerShell transcript start
+Start time: 20260906180328
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 15292
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\BE9_FIRSTSYNC_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS># ================= BE-9 FIRST ROUTINE SYNC — RERUN (investor posture) =================
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$confirm = Read-Host "MT5 journal shows 'investor mode'? type EXACTLY: investor"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if ($confirm -ne "investor") { throw "posture not confirmed - do not proceed" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$ErrorActionPreference = "Stop"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Set-Location C:\Users\victo\.vscode\AXIOM\axiom
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$Base = "http://127.0.0.1:8000"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$BR   = "$Base/api/v1/v2/broker"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if (Get-NetTCPConnection -LocalPort 8000 -State Listen -EA SilentlyContinue) {
+    throw "port 8000 already in use - close the old app window, then re-run" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$app = Start-Job -Name be9app2 -ScriptBlock {
+    param($dir)
+    Set-Location $dir
+    $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/axiom_dev.db"
+    python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+} -ArgumentList "C:\Users\victo\.vscode\AXIOM\axiom\backend"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$up = $false
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>1..40 | ForEach-Object {
+    if (Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue) { $up = $true }
+    if ($up) { break }; Start-Sleep -Seconds 1
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if (-not $up) { Receive-Job $app; Stop-Job $app; throw "app never came up - paste everything" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"app is up."
+app is up.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$pw  = Read-Host -AsSecureString "operator password"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$lp  = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
+       [Runtime.InteropServices.Marshal]::SecureStringToBSTR($pw))
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$r   = Invoke-RestMethod -Method POST -Uri "$Base/api/v1/auth/login" `
+       -ContentType 'application/json' `
+       -Body (@{ username = 'admin'; password = $lp } | ConvertTo-Json)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$lp  = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$tok = $r.tokens.access_token
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if (-not $tok) { throw "token empty - paste the login payload" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$H = @{ Authorization = "Bearer $tok" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"token acquired: True"
+token acquired: True
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== F-4 =="
+== F-4 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Invoke-RestMethod -Method POST -Uri "$BR/vault"  -Headers $H -ContentType 'application/json' -Body '{"action":"unlock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "unlock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:09.328230+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Invoke-RestMethod -Method GET  -Uri "$BR/health" -Headers $H | ConvertTo-Json -Depth 8
+{
+    "provider_id":  "exness_mt5_demo",
+    "environment":  "practice",
+    "terminal":  "logged_in",
+    "reachability":  "reachable",
+    "freshness_age_hours":  0.26844950666666667,
+    "status":  "green",
+    "last_sync_run":  {
+                          "id":  "f2870e2f-6345-4022-873d-5e53f89fa6f6",
+                          "outcome":  "complete",
+                          "basis":  "2026-09-06 14:49:03.266894"
+                      },
+    "last_success_basis":  "2026-09-06 14:49:03.266894",
+    "last_refusal_class":  null,
+    "read_only_login_asserted":  false,
+    "vault_state":  "locked",
+    "unowned_discrepancies":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:09.685269+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== F-5 =="
+== F-5 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$sync = Invoke-RestMethod -Method POST -Uri "$BR/sync" -Headers $H `
+        -ContentType 'application/json' -Body '{"provider_id":"exness_mt5_demo"}'
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$sync | ConvertTo-Json -Depth 8
+{
+    "outcome":  "complete",
+    "sync_run_id":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "result_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+    "page_counts":  {
+                        "accounts":  1,
+                        "balances":  1,
+                        "positions":  0,
+                        "orders":  0,
+                        "fills":  1,
+                        "instrument_permissions":  319
+                    },
+    "fills_reused":  1,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:14.087392+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if ($sync.outcome -ne "complete") { throw "STOP-LAW 1: sync outcome = $($sync.outcome)" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== F-6 =="
+== F-6 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$rec = Invoke-RestMethod -Method POST -Uri "$BR/reconcile" -Headers $H `
+       -ContentType 'application/json' -Body (@{ sync_run_id = $sync.sync_run_id } | ConvertTo-Json)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$rec | ConvertTo-Json -Depth 8
+{
+    "outcome":  "clean",
+    "reconcile_run_id":  "9bd07f6e-ce78-47a1-a0c4-06e2571b4d06",
+    "discrepancy_count":  0,
+    "broker_side_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+    "projection_side_digest":  "5d3876c4e686fb3b86e3804c498230e3b0ef6434f9209b1106b44dcf1208db10",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:15.687272+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if ($rec.outcome -notin @("clean","complete")) { throw "STOP-LAW 3: reconcile outcome = $($rec.outcome)" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== F-7 =="
+== F-7 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>foreach ($p in @("/accounts","/balances","/positions","/orders","/fills",
+                 "/instrument-permissions","/discrepancies","/health")) {
+    "-- GET $p --"
+    Invoke-RestMethod -Method GET -Uri "$BR$p" -Headers $H | ConvertTo-Json -Depth 8
+}
+-- GET /accounts --
+{
+    "accounts":  [
+                     {
+                         "id":  "9e141057-f742-4cd2-a513-a8ab2f067f50",
+                         "broker_account_ext_id":  "476910140",
+                         "record_seq":  2,
+                         "alias":  "AXIOM",
+                         "currency":  "USD",
+                         "environment":  "practice",
+                         "read_only_login":  true,
+                         "provider_id":  "exness_mt5_demo"
+                     },
+                     {
+                         "id":  "af93aa2f-547c-40e7-ac05-ea06bad36dff",
+                         "broker_account_ext_id":  "476910140",
+                         "record_seq":  1,
+                         "alias":  "AXIOM",
+                         "currency":  "USD",
+                         "environment":  "practice",
+                         "read_only_login":  false,
+                         "provider_id":  "exness_mt5_demo"
+                     }
+                 ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:17.897584+00:00"
+}
+-- GET /balances --
+{
+    "balances":  [
+                     {
+                         "id":  "ac4063a4-351e-4780-a3f0-e1ef863d17ed",
+                         "broker_account_ext_id":  "476910140",
+                         "balance":  "10000.0",
+                         "margin_used":  "0.0",
+                         "margin_available":  "10000.0",
+                         "unrealized_pl":  "0.0",
+                         "currency":  "USD",
+                         "sync_run_id":  "d2e869a4-678d-4128-854c-0161bf1342ea"
+                     },
+                     {
+                         "id":  "13a9dc4f-8ef7-4a83-afda-f6a71170388d",
+                         "broker_account_ext_id":  "476910140",
+                         "balance":  "10000.0",
+                         "margin_used":  "0.0",
+                         "margin_available":  "10000.0",
+                         "unrealized_pl":  "0.0",
+                         "currency":  "USD",
+                         "sync_run_id":  "f2870e2f-6345-4022-873d-5e53f89fa6f6"
+                     }
+                 ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.023475+00:00"
+}
+-- GET /positions --
+{
+    "positions":  [
+
+                  ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.139333+00:00"
+}
+-- GET /orders --
+{
+    "orders":  [
+
+               ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.237016+00:00"
+}
+-- GET /fills --
+{
+    "fills":  [
+                  {
+                      "id":  "8fcedf13-26e9-4151-b153-3943ed209837",
+                      "transaction_ext_id":  "2634757541",
+                      "tx_type_ext":  "2",
+                      "instrument_ext_id":  "",
+                      "units":  "0.0",
+                      "price":  "0.0",
+                      "tx_time_ext":  "1788603200"
+                  }
+              ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.375064+00:00"
+}
+-- GET /instrument-permissions --
+{
+    "instrument_permissions":  [
+                                   {
+                                       "id":  "c0269891-59c4-427a-96ed-911b06920a2f",
+                                       "instrument_ext_id":  "SPCXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Space Exploration Technologies Corp. (SpaceX) Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d296579c-984e-4371-ab2f-7d3798e48794",
+                                       "instrument_ext_id":  "METAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Meta Platforms, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5f5b101f-23f0-49c8-8702-67dc7c918ddb",
+                                       "instrument_ext_id":  "ZTOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "ZTO Express (Cayman) Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "14e406ee-407b-42f1-8c57-3cd602dc6873",
+                                       "instrument_ext_id":  "YUMCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Yum China Holdings, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "93df1440-24e9-494b-b208-db51d46fb1bc",
+                                       "instrument_ext_id":  "XPEVm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "XPeng Inc. ",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "17c3defe-f422-41f6-a5d4-c05d83ba876d",
+                                       "instrument_ext_id":  "VIPSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Vipshop Holdings Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "a6225089-29e1-4cd8-9ad9-5385ebe17c70",
+                                       "instrument_ext_id":  "TSMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Taiwan Semiconductor Manufacturing Company Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1a18b85e-f86b-4e35-a001-1e41690c16a3",
+                                       "instrument_ext_id":  "TMEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Tencent Music Entertainment Group",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "54b06fc2-1347-41d2-acb3-5e9e4254e209",
+                                       "instrument_ext_id":  "TIGRm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Up Fintech Holding Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "70458487-547d-46fc-ad8b-fafe10747caf",
+                                       "instrument_ext_id":  "TALm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "TAL Education Group",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "676172a7-b64c-4d99-a85a-fc3df099ec5e",
+                                       "instrument_ext_id":  "RLXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "RLX Technology Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "26bb740d-2180-4abd-aa09-1036e7430bb4",
+                                       "instrument_ext_id":  "PDDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Pinduoduo Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "621637d9-2f45-4538-a99c-79f4c136265a",
+                                       "instrument_ext_id":  "NTESm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NetEase, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "832c8acd-c6d3-438f-a9d9-034b2c8efd1e",
+                                       "instrument_ext_id":  "NIOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NIO Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "8f8c937e-e3d5-45c3-ac95-f0a574b3b187",
+                                       "instrument_ext_id":  "LIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Li Auto Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3b65ec94-f42e-4eee-8093-f42e51eaac47",
+                                       "instrument_ext_id":  "JDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "JD.com, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7b8678c2-46ed-4652-83c0-1fe40261722a",
+                                       "instrument_ext_id":  "IQm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "IQIYI Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "071cbe83-a51d-4994-8003-793ac4fe3679",
+                                       "instrument_ext_id":  "FUTUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Futu Holdings Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "636e296a-26bf-4ffc-86c1-2e4b5192c2d8",
+                                       "instrument_ext_id":  "FTNTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Fortinet, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "23222a4e-297b-4ac7-b1f3-633e9ba574f3",
+                                       "instrument_ext_id":  "EDUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "New Oriental Education \u0026 Technology Group Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "544b15aa-73ad-43a4-95ec-e703527ffb63",
+                                       "instrument_ext_id":  "CANm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Canaan Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3523273e-6a79-4141-a5f6-409c508c5dbe",
+                                       "instrument_ext_id":  "BYNDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Beyond Meat Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7396c460-2c1c-4579-a6dd-c99d2f4a95ce",
+                                       "instrument_ext_id":  "BRQSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Borqs Technologies Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "99a9a61e-85b9-41bf-a994-736f5a932fdf",
+                                       "instrument_ext_id":  "BILIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bilibili Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7d861141-e251-4023-8285-204d87920bdf",
+                                       "instrument_ext_id":  "BIDUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Baidu, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cedd64c3-48df-487c-bf50-823546e23c60",
+                                       "instrument_ext_id":  "BEKEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "KE Holdings Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "e8e397c6-1b33-40c9-a493-18e49010503c",
+                                       "instrument_ext_id":  "BBBYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Bed Bath \u0026 Beyond Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b69a32a8-0e67-479b-acf2-293f9f543472",
+                                       "instrument_ext_id":  "BBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "BlackBerry Ltd",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0e41e940-2ca6-47fe-a4bf-ac98730ac3f4",
+                                       "instrument_ext_id":  "AMCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "AMC Entertainment Holdings, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "65558cc7-f8c6-4276-afb1-cd7df41e98e9",
+                                       "instrument_ext_id":  "XOMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Exxon Mobil Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3705e30e-ac45-4ccf-8a98-3f6d6c035d36",
+                                       "instrument_ext_id":  "WMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Walmart Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0bc6e463-cd15-436b-923d-304afb3a8773",
+                                       "instrument_ext_id":  "WFCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Wells Fargo \u0026 Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5193f3fc-61d4-4464-96cc-3257ac115bd1",
+                                       "instrument_ext_id":  "VZm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Verizon Communications Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1d4cb585-9e3c-4e9e-9854-ad286210f5a8",
+                                       "instrument_ext_id":  "VRTXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Vertex Pharmaceuticals Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f1e2f87a-779b-4884-ae9b-798bf9c2075a",
+                                       "instrument_ext_id":  "Vm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Visa Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "903a4bfa-9ec8-4dd7-8ca6-377b51189a6d",
+                                       "instrument_ext_id":  "UPSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "United Parcel Service, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "66284513-b7fd-40c2-a92b-78f0945b3587",
+                                       "instrument_ext_id":  "UNHm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "UnitedHealth Group Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3ac135be-3ad7-437b-9cd3-aea908690846",
+                                       "instrument_ext_id":  "TSLAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Tesla Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f3d360d8-0e44-4de1-89d7-7cb552ced6c3",
+                                       "instrument_ext_id":  "TMUSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "T-Mobile US, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "9011a925-00a8-4027-a10d-e26612ac089f",
+                                       "instrument_ext_id":  "TMOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Thermo Fisher Scientific Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "66f3530d-53f6-42be-bff1-9efb2b4ec4b1",
+                                       "instrument_ext_id":  "Tm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "AT\u0026T Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0c0adb2c-2f87-45c0-af2d-71e989d07b69",
+                                       "instrument_ext_id":  "SBUXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Starbucks Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "48d67c7f-6371-4abf-a63b-bb16aa2d4ba7",
+                                       "instrument_ext_id":  "REGNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Regeneron Pharmaceuticals, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3978d689-971a-4783-b740-36b23019d0f8",
+                                       "instrument_ext_id":  "PYPLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "PayPal Holdings, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7e5a3662-a4ed-4a94-a1b2-7bd0b5bc0b46",
+                                       "instrument_ext_id":  "PMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Philip Morris International Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "46aeeaeb-6c70-4933-90ad-68d968f6c6b0",
+                                       "instrument_ext_id":  "PGm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Procter \u0026 Gamble Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4781f031-6c3a-4bac-98a5-f596d0020c88",
+                                       "instrument_ext_id":  "PFEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Pfizer, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2f70df75-62fe-427c-b9bf-6a7be4129e88",
+                                       "instrument_ext_id":  "PEPm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "PepsiCo, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1d5f16a2-a1a9-4e9c-8b6e-d99220bce2e0",
+                                       "instrument_ext_id":  "ORCLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Oracle Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "66876840-b3b1-4e10-a4de-a800ffe621a0",
+                                       "instrument_ext_id":  "NVDAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "NVIDIA Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b08edf75-3c63-4c7c-81de-358c00a65014",
+                                       "instrument_ext_id":  "NKEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Nike, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "3578dd67-e9c8-4bab-9da8-27747a73e6da",
+                                       "instrument_ext_id":  "NFLXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Netflix, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cb42e5c6-d064-4a01-9bed-0e2e1e199340",
+                                       "instrument_ext_id":  "MSFTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Microsoft Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "5a9faa5e-2984-4bf7-8a26-7b9a017bc14b",
+                                       "instrument_ext_id":  "MSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Morgan Stanley",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "b1af4116-b10b-4977-b9ff-3dcbe469e998",
+                                       "instrument_ext_id":  "MRKm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Merck \u0026 Company, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "87666253-0b86-4a92-8704-abe0a8f24e3e",
+                                       "instrument_ext_id":  "MOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Altria Group, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "42dbdf80-d7d9-4f7d-8022-669a2fe0aeb1",
+                                       "instrument_ext_id":  "MMMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "3M Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "de36f4f3-c208-433f-8dbb-898b90cfd63c",
+                                       "instrument_ext_id":  "MDLZm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Mondelez International, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "ccd763fb-ce06-4f1c-bb93-9c079e56a431",
+                                       "instrument_ext_id":  "MCDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "McDonalds Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1ad1bc7e-3fa7-4ba7-a471-aac85f7bd66d",
+                                       "instrument_ext_id":  "MAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Mastercard Incorporated",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "c20e4c32-ab6c-45ea-abd1-619c8d267c3c",
+                                       "instrument_ext_id":  "LMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Lockheed Martin Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "aeb34641-efa7-451e-8443-b01520dc5df1",
+                                       "instrument_ext_id":  "LLYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Eli Lilly and Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "ea7cd89c-14d8-4506-846f-1039047fae72",
+                                       "instrument_ext_id":  "LINm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Linde plc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "92f98da9-1efb-4e94-8e49-a80a959a4c35",
+                                       "instrument_ext_id":  "KOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Coca-Cola Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0487f8b3-9e16-4876-a9a9-d741b1184b44",
+                                       "instrument_ext_id":  "JPMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "J P Morgan Chase \u0026 Co",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "e7d746a2-3e56-41bb-b995-ab216d76eb17",
+                                       "instrument_ext_id":  "JNJm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Johnson \u0026 Johnson",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "353d91c5-2d5a-45ab-af8b-3193b5cb4b8c",
+                                       "instrument_ext_id":  "ISRGm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intuitive Surgical, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7459d30f-aef6-495a-b5d7-08d19491938f",
+                                       "instrument_ext_id":  "INTUm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intuit Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "8eb53d51-37ff-4559-ba3b-e5b38befc28c",
+                                       "instrument_ext_id":  "INTCm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Intel Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "7f95a707-39b7-41b8-88cb-e12b24098d04",
+                                       "instrument_ext_id":  "IBMm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "International Business Machines Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "299ae25b-1ce5-4bb3-b4d8-646925293494",
+                                       "instrument_ext_id":  "HDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Home Depot, Inc. (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0378a0c7-42aa-4875-9811-90e228578f6a",
+                                       "instrument_ext_id":  "GOOGLm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Alphabet Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cf4e1621-98f7-43c8-ba5f-73e751628e2c",
+                                       "instrument_ext_id":  "GILDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Gilead Sciences, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0303ce57-16c1-4348-8be0-3831a6160688",
+                                       "instrument_ext_id":  "FBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "3"
+                                                      },
+                                       "display_name":  "Facebook, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "50f97bd4-2976-42a3-90d3-0f0b4fdbb018",
+                                       "instrument_ext_id":  "Fm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Ford Motor Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "067ee5bd-1051-41d4-a8ad-571b02c0087a",
+                                       "instrument_ext_id":  "EQIXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Equinix, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f4178dfe-5cfe-4186-b0dc-69bfd31ccbef",
+                                       "instrument_ext_id":  "EBAYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "eBay Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "c57c3b32-5955-40b6-beb8-c7dfbc27c30a",
+                                       "instrument_ext_id":  "EAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Electronic Arts Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "1d1a337c-94dd-43a5-93c3-9d30c27010e7",
+                                       "instrument_ext_id":  "CVSm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CVS Health Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "6a9bff77-7c03-49df-9e55-6bd59e243738",
+                                       "instrument_ext_id":  "CSXm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CSX Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "147f23b6-ffb5-476f-af2c-0b37f1c4f5ef",
+                                       "instrument_ext_id":  "CSCOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Cisco Systems, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2329be48-f11d-48b1-9361-bfaa21f14b7f",
+                                       "instrument_ext_id":  "COSTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Costco Wholesale Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "53f8b7c6-ce34-423f-8c48-afe11e3449c7",
+                                       "instrument_ext_id":  "CMEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "CME Group Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "f23e39e9-1f02-44ce-9689-d3aec14e05c1",
+                                       "instrument_ext_id":  "CMCSAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Comcast Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "08bf3d86-9f23-4aeb-982d-dd742c0936bd",
+                                       "instrument_ext_id":  "CHTRm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Charter Communications, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "2c9b4cbe-41de-422f-ad75-68a6ee62a791",
+                                       "instrument_ext_id":  "Cm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Citigroup Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "c45dbe14-c9ea-4a22-a306-3d67aa817940",
+                                       "instrument_ext_id":  "BMYm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bristol-Myers Squibb Company",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "e2fc908e-eae4-46a9-8067-1b73e11feb11",
+                                       "instrument_ext_id":  "BIIBm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Biogen Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "fac24ac7-1b95-4899-a39c-f14003a65295",
+                                       "instrument_ext_id":  "BACm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Bank of America Corporation",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "89256c33-1d5e-4725-91fd-9c500bad8b4b",
+                                       "instrument_ext_id":  "BABAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Alibaba Group Holding Limited",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "0e749caa-f2a6-4e45-940b-d6df7badcbfe",
+                                       "instrument_ext_id":  "BAm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Boeing Company (The)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "67803e7d-244b-49e6-bbe6-f4c0fa5a9521",
+                                       "instrument_ext_id":  "AVGOm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Broadcom Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "88325ffd-8442-432e-b5ef-42ea7bdb997a",
+                                       "instrument_ext_id":  "ATVIm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "0"
+                                                      },
+                                       "display_name":  "Activision Blizzard, Inc",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "04df61ad-08ec-4a5d-ad87-19bd35f61cc4",
+                                       "instrument_ext_id":  "AMZNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Amazon.com, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "a4794a45-e00e-4183-8868-5354886b631d",
+                                       "instrument_ext_id":  "AMTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "American Tower Corporation (REIT)",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "cfb776b1-09ae-44d2-a084-482abef59e48",
+                                       "instrument_ext_id":  "AMGNm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Amgen Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d838fa6d-0b86-4297-b0d4-486386c79507",
+                                       "instrument_ext_id":  "AMDm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Advanced Micro Devices, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "4b49d040-a53b-4cbf-8d54-29e06f8c583f",
+                                       "instrument_ext_id":  "ADPm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Automatic Data Processing, Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "d7c60537-ebd8-4519-819d-643030816825",
+                                       "instrument_ext_id":  "ADBEm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Adobe Inc.",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   },
+                                   {
+                                       "id":  "a48e4f95-6394-4f91-8083-35f977c2d714",
+                                       "instrument_ext_id":  "ABTm",
+                                       "visibility":  {
+                                                          "visible":  false,
+                                                          "trade_mode":  "4"
+                                                      },
+                                       "display_name":  "Abbott Laboratories",
+                                       "execution_capability":  "none - read-model only (BE-9)"
+                                   }
+                               ],
+    "staleness":  "fresh",
+    "last_complete_sync":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "age_hours":  0.001,
+    "banner":  null,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.526835+00:00"
+}
+-- GET /discrepancies --
+{
+    "discrepancies":  [
+
+                      ],
+    "reconcile_runs":  [
+                           {
+                               "id":  "9bd07f6e-ce78-47a1-a0c4-06e2571b4d06",
+                               "outcome":  "clean",
+                               "discrepancy_count":  0,
+                               "broker_side_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+                               "projection_side_digest":  "5d3876c4e686fb3b86e3804c498230e3b0ef6434f9209b1106b44dcf1208db10"
+                           },
+                           {
+                               "id":  "44eef652-ce1a-43f9-9512-a21e2f8729a4",
+                               "outcome":  "clean",
+                               "discrepancy_count":  0,
+                               "broker_side_digest":  "51064432d5176aa55ed2517b86d611ca7225eff6cb9f7701d7fbb019a4aa36f6",
+                               "projection_side_digest":  "5d3876c4e686fb3b86e3804c498230e3b0ef6434f9209b1106b44dcf1208db10"
+                           }
+                       ],
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:18.727672+00:00"
+}
+-- GET /health --
+{
+    "provider_id":  "exness_mt5_demo",
+    "environment":  "practice",
+    "terminal":  "logged_in",
+    "reachability":  "reachable",
+    "freshness_age_hours":  0.001417698888888889,
+    "status":  "green",
+    "last_sync_run":  {
+                          "id":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+                          "outcome":  "complete",
+                          "basis":  "2026-09-06 15:05:13.897050"
+                      },
+    "last_success_basis":  "2026-09-06 15:05:13.897050",
+    "last_refusal_class":  null,
+    "read_only_login_asserted":  true,
+    "vault_state":  "locked",
+    "unowned_discrepancies":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:19.000897+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>$acct = Invoke-RestMethod -Method GET -Uri "$BR/accounts" -Headers $H
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>if ($acct.accounts | Where-Object { $_.read_only_login -eq $true } | Select-Object -First 1) {
+    "POSTURE WITNESS: read_only_login = true present in projection" }
+POSTURE WITNESS: read_only_login = true present in projection
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>else { throw "STOP-LAW 2: no true read_only_login - investor posture violated" }
+>> TerminatingError(): "The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again."
+The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the
+name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else { throw "STOP-LAW 2: no true read_only_login - investor posture  ...
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== F-8 =="
+== F-8 ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Invoke-RestMethod -Method POST -Uri "$BR/vault" -Headers $H -ContentType 'application/json' -Body '{"action":"lock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "lock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:22.629594+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Invoke-RestMethod -Method POST -Uri "$BR/vault" -Headers $H -ContentType 'application/json' -Body '{"action":"lock"}' | ConvertTo-Json
+{
+    "outcome":  "recorded",
+    "action":  "lock",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T15:05:22.786183+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Stop-Job $app; Remove-Job $app; $tok = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>@'
+import hashlib, sqlite3
+b = open(r"C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db", "rb").read()
+print("gate sha AFTER:", hashlib.sha256(b).hexdigest())
+c = sqlite3.connect(r"file:C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db?mode=ro", uri=True)
+for t in ["v2_broker_sync_run","v2_broker_account","v2_broker_balance","v2_broker_position",
+          "v2_broker_order","v2_broker_fill","v2_broker_instrument_permission",
+          "v2_broker_discrepancy","v2_broker_reconcile_run"]:
+    print(f"{t}:", c.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0])
+print("rev:", c.execute("SELECT version_num FROM alembic_version").fetchall())
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>"== RERUN COMPLETE =="
+== RERUN COMPLETE ==
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiomPS C:\Users\victo\.vscode\AXIOM\axiom> ]633;B
+PS>Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260906180534
+**********************

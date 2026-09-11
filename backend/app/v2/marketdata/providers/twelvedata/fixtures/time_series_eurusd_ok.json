@@ -1,0 +1,18 @@
+{
+  "_fixture_note": "static candidate documentation sample; not live data; no secret",
+  "meta": {
+    "symbol": "EUR/USD",
+    "interval": "1min",
+    "currency_base": "Euro",
+    "currency_quote": "US Dollar",
+    "type": "Physical Currency"
+  },
+  "values": [
+    {"datetime": "2026-08-20 10:04:00", "open": "1.10120", "high": "1.10155", "low": "1.10110", "close": "1.10140"},
+    {"datetime": "2026-08-20 10:03:00", "open": "1.10100", "high": "1.10130", "low": "1.10090", "close": "1.10120"},
+    {"datetime": "2026-08-20 10:02:00", "open": "1.10080", "high": "1.10115", "low": "1.10070", "close": "1.10100"},
+    {"datetime": "2026-08-20 10:01:00", "open": "1.10060", "high": "1.10095", "low": "1.10050", "close": "1.10080"},
+    {"datetime": "2026-08-20 10:00:00", "open": "1.10040", "high": "1.10075", "low": "1.10030", "close": "1.10060"}
+  ],
+  "status": "ok"
+}

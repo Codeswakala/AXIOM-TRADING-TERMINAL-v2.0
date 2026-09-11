@@ -1,0 +1,586 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260907111439
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 11596
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\BE11_0051_APPLY_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # P-2 fresh gate (expectations from N-R4 — enumerate, never assume):
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import hashlib;print(hashlib.sha256(open('axiom_dev.db','rb').read()).hexdigest())"
+4c892c9aa8f8718e0902227cc6ef323ec67a8b03a128fa1db17fbaa0f60556f8
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) #  expect: 90660b5d13cba8a662dac60bee13233669504e41ff418296d36278b50481f9de
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) alembic current -x verbose   # expect EXACTLY: 20260908_0050 (head)
+usage: python.exe C:\Users\victo\.vscode\AXIOM\axiom\backend\.venv\Scripts\alembic [-h] [--version] [-c CONFIG] [-n NAME] [-x X]
+                                                                                   [--raiseerr] [-q]
+                                                                                   {branches,check,current,downgrade,edit,ensure_version,he
+ads,history,init,list_templates,merge,revision,show,stamp,upgrade} ...
+python.exe C:\Users\victo\.vscode\AXIOM\axiom\backend\.venv\Scripts\alembic: error: unrecognized arguments: -x verbose
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python - <<'EOF'
+At line:1 char:11
++ python - <<'EOF'
++           ~
+Missing file specification after redirection operator.
+
+At line:1 char:10
++ python - <<'EOF'
++          ~
+The '<' operator is reserved for future use.
+
+At line:1 char:11
++ python - <<'EOF'
++           ~
+The '<' operator is reserved for future use.
+At line:1 char:11
++ python - <<'EOF'
++           ~
+Missing file specification after redirection operator.
+
+At line:1 char:10
++ python - <<'EOF'
++          ~
+The '<' operator is reserved for future use.
+
+At line:1 char:11
++ python - <<'EOF'
++           ~
+The '<' operator is reserved for future use.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingFileSpecification
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) import sqlite3
+import : The term 'import' is not recognized as the name of a cmdlet, function, script file, or operable program. Check 
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ import sqlite3
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (import:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+import : The term 'import' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of
+the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ import sqlite3
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (import:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
+At line:1 char:47
++ c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
++                                               ~
+Missing argument in parameter list.
+At line:1 char:47
++ c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
++                                               ~
+Missing argument in parameter list.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingArgument
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone()[0],
+      c.execute('SELECT COUNT(*) FROM v2_permission').fetchone()[0],
+      c.execute('SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~
+Missing expression after ','.
+
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~
+Missing closing ')' in expression.
+
+At line:3 char:77
++ ... execute('SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~
+Missing expression after ','.
+
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:24
++ print('census-before:',c.execute("SELECT COUNT(*) FROM sqlite_master  ...
++                        ~
+Missing closing ')' in expression.
+
+At line:3 char:77
++ ... execute('SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) EOF
+EOF : The term 'EOF' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ EOF
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (EOF:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+EOF : The term 'EOF' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the
+name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ EOF
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (EOF:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) #  expect: census-before: 76 65 12
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # P-3 apply (N-O8: both streams; EXPECT EXACTLY ONE upgrade line):
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) alembic upgrade head 2>&1
+alembic : INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+At line:1 char:1
++ alembic upgrade head 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO  [alembic....mpl SQLiteImpl.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 20260908_0050 -> 20260909_0051, V2 BE-11 ù paper bridge (BO-V2-BE-11-001 D-2; exactly
+ONE upgrade line).
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) #  expect only: ... 20260908_0050 -> 20260909_0051
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # P-4 post-verify (expectations enumerated; glyph-free string law in force):
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) alembic current -x verbose   # expect: 20260909_0051 (head)
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python - <<'EOF'
+At line:1 char:11
++ python - <<'EOF'
++           ~
+Missing file specification after redirection operator.
+
+At line:1 char:10
++ python - <<'EOF'
++          ~
+The '<' operator is reserved for future use.
+
+At line:1 char:11
++ python - <<'EOF'
++           ~
+The '<' operator is reserved for future use.
+At line:1 char:11
++ python - <<'EOF'
++           ~
+Missing file specification after redirection operator.
+
+At line:1 char:10
++ python - <<'EOF'
++          ~
+The '<' operator is reserved for future use.
+
+At line:1 char:11
++ python - <<'EOF'
++           ~
+The '<' operator is reserved for future use.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingFileSpecification
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) import sqlite3,hashlib
+import : The term 'import' is not recognized as the name of a cmdlet, function, script file, or operable program. Check 
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ import sqlite3,hashlib
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (import:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+import : The term 'import' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of
+the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ import sqlite3,hashlib
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (import:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) from pathlib import Path
+At line:1 char:1
++ from pathlib import Path
++ ~~~~
+The 'from' keyword is not supported in this version of the language.
+At line:1 char:1
++ from pathlib import Path
++ ~~~~
+The 'from' keyword is not supported in this version of the language.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ReservedKeywordNotAllowed
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
+At line:1 char:47
++ c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
++                                               ~
+Missing argument in parameter list.
+At line:1 char:47
++ c=sqlite3.connect(r'file:axiom_dev.db?mode=ro',uri=True)
++                                               ~
+Missing argument in parameter list.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingArgument
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone()[0],
+      c.execute('SELECT COUNT(*) FROM v2_permission').fetchone()[0],
+      c.execute('SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])           # expect 78 69 13
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~
+Missing expression after ','.
+
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~
+Missing closing ')' in expression.
+
+At line:3 char:77
++ ... 'SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])         ...
++                                                                 ~
+Unexpected token ')' in expression or statement.
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~
+Missing expression after ','.
+
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:23
++ print('census-after:',c.execute("SELECT COUNT(*) FROM sqlite_master W ...
++                       ~
+Missing closing ')' in expression.
+
+At line:3 char:77
++ ... 'SELECT COUNT(*) FROM v2_computation_version').fetchone()[0])         ...
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permission WHERE permission LIKE 'v2.paper_bridge.%' ORDER BY permission").fetchall())
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~
+Missing expression after ','.
+
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~
+Missing closing ')' in expression.
+
+At line:1 char:149
++ ... permission LIKE 'v2.paper_bridge.%' ORDER BY permission").fetchall())
++                                                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~
+Missing expression after ','.
+
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:23
++ print('bridge perms:',c.execute("SELECT permission,sal FROM v2_permis ...
++                       ~
+Missing closing ')' in expression.
+
+At line:1 char:149
++ ... permission LIKE 'v2.paper_bridge.%' ORDER BY permission").fetchall())
++                                                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_paper_bridge_drift_run').fetchone()[0])
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~
+Missing expression after ','.
+
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~
+Missing closing ')' in expression.
+
+At line:1 char:105
++ ... cute('SELECT COUNT(*) FROM v2_paper_bridge_drift_run').fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~
+Missing expression after ','.
+
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:32
++ print('drift rows (expect 0):',c.execute('SELECT COUNT(*) FROM v2_pap ...
++                                ~
+Missing closing ')' in expression.
+
+At line:1 char:105
++ ... cute('SELECT COUNT(*) FROM v2_paper_bridge_drift_run').fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger' AND name LIKE 'v2_paper_bridge_drift_run%'").fetchone()[0])
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~
+Missing expression after ','.
+
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~
+Missing closing ')' in expression.
+
+At line:1 char:161
++ ... 'trigger' AND name LIKE 'v2_paper_bridge_drift_run%'").fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~
+Missing expression after ','.
+
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:36
++ print('drift triggers (expect 2):',c.execute("SELECT COUNT(*) FROM sq ...
++                                    ~
+Missing closing ')' in expression.
+
+At line:1 char:161
++ ... 'trigger' AND name LIKE 'v2_paper_bridge_drift_run%'").fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) h=hashlib.sha256(); rel='app/v2/paper_bridge/engine.py'
+At line:1 char:18
++ h=hashlib.sha256(); rel='app/v2/paper_bridge/engine.py'
++                  ~
+An expression was expected after '('.
+At line:1 char:18
++ h=hashlib.sha256(); rel='app/v2/paper_bridge/engine.py'
++                  ~
+An expression was expected after '('.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedExpression
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) h.update(rel.encode()+b'\x00'); h.update(Path(rel).read_bytes()+b'\x00')
+At line:1 char:21
++ h.update(rel.encode()+b'\x00'); h.update(Path(rel).read_bytes()+b'\x0 ...
++                     ~
+An expression was expected after '('.
+At line:1 char:21
++ h.update(rel.encode()+b'\x00'); h.update(Path(rel).read_bytes()+b'\x0 ...
++                     ~
+An expression was expected after '('.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedExpression
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('pbr compver live:', h.hexdigest())   # expect == DB row AND == 4c243435...178b
+At line:1 char:27
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                           ~
+Missing expression after ','.
+
+At line:1 char:28
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                            ~~~~~~~~~~~
+Unexpected token 'h.hexdigest' in expression or statement.
+
+At line:1 char:27
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                           ~
+Missing closing ')' in expression.
+
+At line:1 char:40
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                                        ~
+An expression was expected after '('.
+
+At line:1 char:41
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:27
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                           ~
+Missing expression after ','.
+
+At line:1 char:28
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                            ~~~~~~~~~~~
+Unexpected token 'h.hexdigest' in expression or statement.
+
+At line:1 char:27
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                           ~
+Missing closing ')' in expression.
+
+At line:1 char:40
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                                        ~
+An expression was expected after '('.
+
+At line:1 char:41
++ print('pbr compver live:', h.hexdigest())   # expect == DB row AND == ...
++                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computation_version WHERE component='paper_bridge_engine'").fetchone()[0])
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~
+Missing expression after ','.
+
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~
+Missing closing ')' in expression.
+
+At line:1 char:135
++ ... tation_version WHERE component='paper_bridge_engine'").fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~
+Missing expression after ','.
+
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~~~~~~~~~
+Unexpected token 'c.execute' in expression or statement.
+
+At line:1 char:24
++ print('pbr db row   :',c.execute("SELECT source_hash FROM v2_computat ...
++                        ~
+Missing closing ')' in expression.
+
+At line:1 char:135
++ ... tation_version WHERE component='paper_bridge_engine'").fetchone()[0])
++                                                                         ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterToken
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) EOF
+EOF : The term 'EOF' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ EOF
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (EOF:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+EOF : The term 'EOF' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the
+name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ EOF
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (EOF:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import hashlib;print(hashlib.sha256(open('axiom_dev.db','rb').read()).hexdigest())"   # sha-after (new OPERATING identity)
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # P-5 suite seal (banner MUST read 1155 passed):
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -m pytest tests -q
+
+(.venv) TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B

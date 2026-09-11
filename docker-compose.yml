@@ -1,0 +1,46 @@
+# AXIOM Wave-0 foundation stack (W0-U08)
+# Usage (from repo root):
+#   docker compose up --build
+# API: http://localhost:8000
+# Postgres: localhost:5432 (user/pass/db: axiom)
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: axiom
+      POSTGRES_PASSWORD: axiom
+      POSTGRES_DB: axiom
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U axiom -d axiom"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - axiom_pg_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      AXIOM_ENVIRONMENT: development
+      AXIOM_DATABASE_URL: postgresql+asyncpg://axiom:axiom@db:5432/axiom
+      AXIOM_DATABASE_AUTO_CREATE_SCHEMA: "false"
+      AXIOM_JWT_SECRET_KEY: docker-compose-dev-secret-key-min-32-chars
+      AXIOM_ALLOW_INSECURE_DEV: "false"
+      AXIOM_BOOTSTRAP_ADMIN_ENABLED: "true"
+      AXIOM_BOOTSTRAP_ADMIN_USERNAME: admin
+      AXIOM_BOOTSTRAP_ADMIN_PASSWORD: ChangeMe-Docker-Local-Only-9
+      AXIOM_CORS_ORIGINS: http://localhost:8000,http://127.0.0.1:8000
+      AXIOM_LIVE_MARKET_AUTO_START: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  axiom_pg_data:

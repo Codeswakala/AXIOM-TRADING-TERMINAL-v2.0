@@ -1,0 +1,170 @@
+/**
+ * Dialog Styles (UI-009-P05 / UI-011-P03) — Pure Tokenized CSS
+ */
+
+.ix-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--ix-shadow-overlay);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ix-space-4);
+  animation: ix-dialog-fade-in var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-dialog {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ix-bg-surface-raised);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-lg);
+  box-shadow: var(--ix-elevation-overlay);
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  max-height: calc(100vh - var(--ix-space-8));
+  overflow: hidden;
+  outline: none;
+  animation: ix-dialog-scale-up var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+/* Sizing */
+.ix-dialog--sm {
+  width: 100%;
+  max-width: 400px;
+}
+
+.ix-dialog--md {
+  width: 100%;
+  max-width: 600px;
+}
+
+.ix-dialog--lg {
+  width: 100%;
+  max-width: 840px;
+}
+
+.ix-dialog--full {
+  width: 100%;
+  max-width: 95vw;
+  height: 90vh;
+}
+
+/* Header */
+.ix-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ix-space-3);
+  padding: var(--ix-space-4) var(--ix-space-6);
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-surface-muted);
+}
+
+.ix-dialog__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-1);
+}
+
+.ix-dialog__title {
+  margin: 0;
+  padding: 0;
+  font-size: var(--ix-type-workspace-title);
+  font-weight: 600;
+  color: var(--ix-text-primary);
+  line-height: 1.25;
+}
+
+.ix-dialog__description {
+  margin: 0;
+  padding: 0;
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-secondary);
+  line-height: 1.3;
+}
+
+.ix-dialog__close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: transparent;
+  border: var(--ix-border-width) solid transparent;
+  border-radius: var(--ix-radius-sm);
+  color: var(--ix-text-secondary);
+  font-size: var(--ix-type-section-heading);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease),
+              color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-dialog__close-btn:hover {
+  background-color: var(--ix-bg-surface);
+  color: var(--ix-text-primary);
+}
+
+.ix-dialog__close-btn:active {
+  filter: brightness(0.95);
+}
+
+.ix-dialog__close-btn:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+/* Body */
+.ix-dialog__body {
+  padding: var(--ix-space-6);
+  overflow-y: auto;
+  flex: 1;
+  font-size: var(--ix-type-body);
+  line-height: 1.5;
+}
+
+/* Footer */
+.ix-dialog__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ix-space-2);
+  padding: var(--ix-space-3) var(--ix-space-6);
+  border-top: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-surface-muted);
+}
+
+/* Animations */
+@keyframes ix-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ix-dialog-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-dialog-overlay,
+  .ix-dialog {
+    animation: none;
+  }
+  .ix-dialog__close-btn {
+    transition: none;
+  }
+}

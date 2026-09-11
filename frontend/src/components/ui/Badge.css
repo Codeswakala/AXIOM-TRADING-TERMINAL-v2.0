@@ -1,0 +1,62 @@
+/**
+ * Badge Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+  font-family: var(--ix-font-sans);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--ix-badge-radius);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ix-badge--sm {
+  font-size: 0.65rem;
+  padding: 2px var(--ix-space-1);
+}
+
+.ix-badge--md {
+  font-size: var(--ix-type-metadata);
+  padding: var(--ix-space-1) var(--ix-space-2);
+}
+
+/* Variants */
+.ix-badge--neutral {
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-text-secondary);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+}
+
+.ix-badge--info {
+  background-color: var(--ix-color-selection);
+  color: var(--ix-color-information);
+  border: var(--ix-border-width) solid var(--ix-color-information);
+}
+
+.ix-badge--success {
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-color-success);
+  border: var(--ix-border-width) solid var(--ix-color-success);
+}
+
+.ix-badge--warning {
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-color-warning);
+  border: var(--ix-border-width) solid var(--ix-color-warning);
+}
+
+.ix-badge--critical {
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-color-critical);
+  border: var(--ix-border-width) solid var(--ix-color-critical);
+}
+
+.ix-badge--accent {
+  background-color: var(--ix-color-selection);
+  color: var(--ix-color-accent);
+  border: var(--ix-border-width) solid var(--ix-color-accent);
+}

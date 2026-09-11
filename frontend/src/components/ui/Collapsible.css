@@ -1,0 +1,108 @@
+/**
+ * Collapsible Styles (UI-009-P03 / UI-011-P03) — Pure Tokenized CSS
+ */
+
+.ix-collapsible {
+  display: flex;
+  flex-direction: column;
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-md);
+  background-color: var(--ix-bg-surface);
+  overflow: hidden;
+  font-family: var(--ix-font-sans);
+  transition: border-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-collapsible--disabled {
+  opacity: var(--ix-opacity-disabled);
+}
+
+.ix-collapsible__heading {
+  margin: 0;
+  padding: 0;
+}
+
+.ix-collapsible__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ix-space-3) var(--ix-space-4);
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  border: none;
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease),
+              color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-collapsible__trigger:hover:not(:disabled) {
+  background-color: var(--ix-bg-surface-muted);
+}
+
+.ix-collapsible__trigger:active:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.ix-collapsible__trigger:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: -2px;
+}
+
+.ix-collapsible__trigger:disabled {
+  cursor: not-allowed;
+}
+
+.ix-collapsible__trigger-left {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+}
+
+.ix-collapsible__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ix-color-accent);
+}
+
+.ix-collapsible__title {
+  color: var(--ix-text-primary);
+}
+
+.ix-collapsible__caret {
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-collapsible__content {
+  padding: var(--ix-space-4);
+  background-color: var(--ix-bg-surface);
+  color: var(--ix-text-primary);
+  font-size: var(--ix-type-body);
+  animation: ix-collapsible-slide var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+@keyframes ix-collapsible-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-collapsible,
+  .ix-collapsible__trigger {
+    transition: none;
+  }
+  .ix-collapsible__content {
+    animation: none;
+  }
+}

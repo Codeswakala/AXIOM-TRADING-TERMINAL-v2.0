@@ -1,0 +1,172 @@
+/**
+ * DataTable Styles (UI-009-P04) — Pure Tokenized CSS
+ */
+
+.ix-data-table-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ix-bg-surface);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-md);
+  overflow: hidden;
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  width: 100%;
+}
+
+.ix-data-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ix-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.ix-data-table__caption {
+  padding: var(--ix-space-2) var(--ix-space-4);
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-muted);
+  text-align: left;
+}
+
+/* Head */
+.ix-data-table__head {
+  position: sticky;
+  top: 0;
+  z-index: var(--ix-table-sticky-header-z-index, 2);
+  background-color: var(--ix-table-header-bg, var(--ix-bg-surface-raised));
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+}
+
+.ix-data-table__th {
+  padding: var(--ix-space-3) var(--ix-space-4);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-panel-heading);
+  font-weight: 600;
+  color: var(--ix-text-primary);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ix-data-table__header-text {
+  line-height: 1.2;
+}
+
+/* Body & Rows */
+.ix-data-table__row {
+  border-bottom: var(--ix-border-width) solid var(--ix-table-row-border, var(--ix-border-subtle));
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-data-table__row:last-child {
+  border-bottom: none;
+}
+
+.ix-data-table__row:hover {
+  background-color: var(--ix-table-hover-bg, var(--ix-bg-surface-muted));
+}
+
+.ix-data-table__row--clickable {
+  cursor: pointer;
+}
+
+.ix-data-table__row--clickable:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-data-table__row {
+    transition: none;
+  }
+}
+
+/* Cells */
+.ix-data-table__cell {
+  padding: var(--ix-space-3) var(--ix-space-4);
+  font-size: var(--ix-type-body);
+  color: var(--ix-text-primary);
+  line-height: 1.4;
+}
+
+/* Alignments & Monospace Tabular-Nums */
+.ix-numeric,
+.ix-data-table__cell--numeric,
+.ix-data-table__th--numeric {
+  text-align: right;
+  font-family: var(--ix-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.ix-data-table__cell--right,
+.ix-data-table__th--right {
+  text-align: right;
+}
+
+.ix-data-table__cell--center,
+.ix-data-table__th--center {
+  text-align: center;
+}
+
+.ix-data-table__cell--left,
+.ix-data-table__th--left {
+  text-align: left;
+}
+
+/* Empty State */
+.ix-data-table__empty-cell {
+  padding: var(--ix-space-8) var(--ix-space-4);
+  text-align: center;
+}
+
+.ix-data-table__empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ix-space-2);
+  color: var(--ix-text-muted);
+}
+
+.ix-data-table__empty-icon {
+  font-size: var(--ix-type-display-title);
+  color: var(--ix-color-disabled);
+}
+
+.ix-data-table__empty-text {
+  font-size: var(--ix-type-body);
+}
+
+/* Skeleton Loading State */
+.ix-data-table__skeleton-row {
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+}
+
+.ix-data-table__skeleton-bar {
+  display: inline-block;
+  width: 70%;
+  height: 16px;
+  background-color: var(--ix-bg-surface-raised);
+  border-radius: var(--ix-radius-sm);
+  opacity: var(--ix-opacity-muted);
+  animation: ix-skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes ix-skeleton-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-data-table__skeleton-bar {
+    animation: none;
+  }
+}

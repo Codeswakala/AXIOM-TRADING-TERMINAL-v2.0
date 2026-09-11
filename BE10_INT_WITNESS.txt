@@ -1,0 +1,133 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260906204354
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 3464
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\BE10_INT_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-1: corpus pin verification — enumerate fresh from the delivery transcript, never stale literals ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import hashlib, os, re, sys
+tx = open(r"..\docs\evidence\V2_BE-10_SOURCE_TRANSCRIPT.md", encoding="utf-8").read()
+pins = re.findall(r"`([^`\n\|]+\.py)`\s*\|[^|\n]*\|[^|\n]*\|\s*`([0-9a-f]{64})`", tx)
+if len(pins) < 10:
+    print("pin-table parse weak:", pins); sys.exit(1)
+bad = []
+for rel, want in sorted(set(pins)):
+    p = rel.replace("/", os.sep)
+    if not os.path.isfile(p): bad.append(rel); print("MISSING", rel); continue
+    got = hashlib.sha256(open(p, "rb").read()).hexdigest()
+    print(("OK   " if got == want else "FAIL ") + rel)
+    if got != want: bad.append(rel)
+print(f"\n{len(set(pins))-len(bad)}/{len(set(pins))} bodies pin-exact (delivery corpus)")
+sys.exit(1 if bad else 0)
+'@ | python -
+OK   app/v2/account_context/engine.py
+OK   app/v2/api/router.py
+OK   app/v2/rbac/permissions.py
+OK   tests/test_v2_be10_api.py
+OK   tests/test_v2_be10_boundaries.py
+OK   tests/test_v2_be10_contract.py
+OK   tests/test_v2_be10_engine.py
+OK   tests/test_v2_be10_migration.py
+
+12/12 bodies pin-exact (delivery corpus)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-2: scratch clone from the FIELDED file, pre-gate ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) Copy-Item .\axiom_dev.db .\be10_int_scratch.db -Force
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import hashlib,sqlite3; print('scratch sha:', hashlib.sha256(open(r'.\be10_int_scratch.db','rb').read()).hexdigest()); c=sqlite3.connect(r'.\be10_int_scratch.db'); print('rev:', c.execute('SELECT version_num FROM alembic_version').fetchall())"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-3: apply 0050 on the SCRATCH ONLY ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/be10_int_scratch.db"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import os; print('INT-TARGET =', os.environ['AXIOM_DATABASE_URL'])"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # READ-IT-BACK: must say be10_int_scratch.db — NOT axiom_dev.db
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -m alembic upgrade head
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # EXPECT exactly one "Running upgrade ... -> 20260908_0050" line. Any chain longer / any error: STOP, paste.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-4: post-apply census on scratch (the B-3 tattoo, live) ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import sqlite3
+c = sqlite3.connect(r"file:.\be10_int_scratch.db?mode=ro", uri=True)
+print("rev:", c.execute("SELECT version_num FROM alembic_version").fetchall())
+print("triggers:", c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone()[0])
+print("permissions:", c.execute("SELECT COUNT(*) FROM v2_permission").fetchone()[0])
+print("acct-ctx perm:", c.execute("SELECT permission FROM v2_permission WHERE permission LIKE 'v2.account_context.%'").fetchall())
+print("compver:", c.execute("SELECT component, version, source_hash FROM v2_computation_version WHERE component='account_context_engine'").fetchall())
+print("compver total:", c.execute("SELECT COUNT(*) FROM v2_computation_version").fetchone()[0])
+print("map rows exness:", c.execute("SELECT source_symbol, instrument_id FROM v2_md_symbol_map WHERE source_id='exness_mt5_demo' ORDER BY source_symbol").fetchall())
+print("source row:", c.execute("SELECT source_id, kind, authority, active FROM v2_md_source WHERE source_id='exness_mt5_demo'").fetchall())
+mapcount = c.execute("SELECT COUNT(*) FROM v2_md_symbol_map WHERE source_id='exness_mt5_demo'").fetchone()[0]
+assert mapcount == 12, "sealed-map count anomaly — STOP"
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-5: full suite on the scratch basis ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/be10_int_scratch.db"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -m pytest tests -q 2>&1 | Select-Object -Last 6
+tests/test_b_audit_concurrency.py::test_b_audit_append_failure_never_500s_endpoint
+  tests\test_b_audit_concurrency.py:300: PytestWarning: The test <Function test_b_audit_append_failure_never_500s_endpoint> is marked with '@pytest.mark.asyncio' but it is not an async function. Please remove the asyncio mark. If the test is not marked explicitly, check for global marks applied via 'pytestmark'.
+    def test_b_audit_append_failure_never_500s_endpoint(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1121 passed, 3900 warnings in 1833.36s (0:30:33)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # EXPECT: 1121 passed banner (accept the same warning profile as prior runs). Anything else: STOP, paste.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # --- I-6: digest ×3 reproduction on the scratch basis (engine-side, live calculus) ---
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import asyncio, os
+os.environ["AXIOM_DATABASE_URL"] = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/be10_int_scratch.db"
+from app.db.session import get_db_session
+from app.v2.account_context.engine import compute_alignment   # adjust name only if build differs; STOP on ImportError and paste
+async def go():
+    out = []
+    async for s in get_db_session():
+        for _ in range(3):
+            out.append(await compute_alignment(s))
+    for r in out:
+        print("digest:", r.get("digest") if isinstance(r, dict) else r)
+asyncio.run(go())
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # EXPECT: 3 identical digest lines. Any ImportError/name mismatch: STOP, paste (I'll repair from the delivery transcript — the function name is pinned there).
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260906211509
+**********************

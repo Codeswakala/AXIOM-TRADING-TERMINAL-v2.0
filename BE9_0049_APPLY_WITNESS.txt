@@ -1,0 +1,158 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260906152544
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 9980
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\BE9_0049_APPLY_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import sqlite3
+W = sqlite3.connect(r"file:.\axiom_dev.db?mode=ro", uri=True)
+S = sqlite3.connect(r"file:.\be9_e1_scratch.db?mode=ro", uri=True)
+def tabs(c):
+    return {r[0] for r in c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
+tw, ts = tabs(W), tabs(S)
+print("tables only in scratch (expect the nine BE-9 tops + alembic_step is shared):")
+print("  ", sorted(ts - tw))
+drifted = []
+for t in sorted(tw & ts):
+    cw = W.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+    cs = S.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+    if cw != cs:
+        drifted.append((t, cs, cw, cw - cs))
+for t, cs, cw, d in drifted:
+    klass = next((k for k in ("audit","token","session","login","event","refresh","ingest") if k in t), None)
+    print(f"  drift: {t:36s} count {cs} -> {cw} (delta {d:+d})  class={klass or 'REVIEW'}")
+# operators content compare (in-place edits e.g. last_login_at don't change counts):
+wr = sorted(W.execute("SELECT username, role, is_active, last_login_at FROM operators"))
+sr = sorted(S.execute("SELECT username, role, is_active, last_login_at FROM operators"))
+print("  operators content equal:", wr == sr)
+if wr != sr:
+    print("   working:", wr); print("   scratch:", sr)
+print("LAW: every drifted table MUST classify audit/token/session/login/event/refresh;")
+print("any 'REVIEW' class => STOP and paste.")
+'@ | python -
+any 'REVIEW' class => STOP and paste.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import hashlib; print('gate sha256:', hashlib.sha256(open(r'.\axiom_dev.db','rb').read()).hexdigest())"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import sqlite3
+c = sqlite3.connect(r"file:.\axiom_dev.db?mode=ro", uri=True)
+print("rev:", c.execute("SELECT version_num FROM alembic_version").fetchall())            # 20260904_0048
+print("perm rows:", c.execute("SELECT COUNT(*) FROM v2_permission").fetchone())         # 57
+print("triggers:", c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone())  # 58
+print("compver rows:", c.execute("SELECT component, version, source_hash FROM v2_computation_version").fetchall())  # 10 rows — COMPARE at P-4
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/axiom_dev.db"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -c "import os; print('APPLY-TARGET =', os.environ['AXIOM_DATABASE_URL'])"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # proof line MUST print ...\axiom_dev.db (NOT the scratch) — read it twice before Enter:
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -m alembic upgrade head
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # EXPECT EXACTLY ONE "Running upgrade ..." line: 20260904_0048 -> 20260905_0049
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # ANY longer chain = STOP. Any refusal = STOP with evidence (E-0046-DUP: a repeat
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # complete-apply is a no-op, never an error to "fix").
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import sqlite3
+c = sqlite3.connect(r"file:.\axiom_dev.db?mode=ro", uri=True)
+print("rev:", c.execute("SELECT version_num FROM alembic_version").fetchall())                # 20260905_0049
+print("compver:", c.execute("SELECT version, source_hash FROM v2_computation_version "
+  "WHERE component='broker_read_engine'").fetchall())   # MUST BE bre-1.0.0 | b0008cb9… EXACT
+print("other compver rows:", c.execute("SELECT component, version FROM v2_computation_version "
+  "WHERE component!='broker_read_engine'").fetchall())  # MUST equal P-2's set exactly (10 rows)
+print("perm rows:", c.execute("SELECT COUNT(*) FROM v2_permission").fetchone())             # 64
+print("broker rows:", c.execute("SELECT COUNT(*) FROM v2_permission WHERE permission LIKE 'v2.broker.%'").fetchone())  # 7
+print("triggers:", c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone())  # 76
+print("be9:", c.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger' AND name LIKE 'v2_broker_%_immutable_%'").fetchone())  # 18
+# --- refusal probes inside a rolled-back transaction; messages MUST be verbatim:
+for sql, want in [
+ ("UPDATE v2_broker_account SET alias=alias WHERE 1=0",            "V2 broker accounts are immutable; UPDATE prohibited"),
+ ("DELETE FROM v2_broker_account WHERE 1=0",                       "V2 broker accounts are immutable; DELETE prohibited"),
+ ("UPDATE v2_broker_sync_run SET outcome=outcome WHERE 1=0",       "V2 broker sync runs are immutable; UPDATE prohibited"),
+ ("DELETE FROM v2_broker_sync_run WHERE 1=0",                      "V2 broker sync runs are immutable; DELETE prohibited")]:
+    try:
+        c.execute("BEGIN"); c.execute(sql); c.execute("ROLLBACK")
+        print(f"PROBE {sql[:40]}: NO REFUSAL RAISED  <-- UNEXPECTED, STOP")
+    except Exception as e:
+        c.execute("ROLLBACK")
+        print(f"PROBE {sql.split()[0]:6s} {sql.split(' ON ' if ' ON ' in sql else ' FROM ')[1].split()[0]:24s} refusal: {str(e)[:80]}")
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # re-run the 22-pin identity gate — expect 22/22 pin-exact:
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) @'
+import hashlib, os
+PINS = {
+ "alembic/versions/20260905_0049_v2_be9_broker_read.py": "4ead368e7b928b1373707597ec52a403ab98acf224e45fc60e2cb32a80db8420",
+ "app/db/models/__init__.py": "ff17b157efc52a42c8bdea833cd78b9c0ff9d4bff10da1cd640adee3bb12609d",
+ "app/db/models/v2_broker_read.py": "0f310930efdf96b5b2ec28e9f45a30bf1c330fbf9dd42ecc3290e5ffb7406bc0",
+ "app/v2/api/router.py": "a0368d1b80575491e0a7c22a50009ff0f1787241657ea403b65b9f756172111a",
+ "app/v2/broker_read/__init__.py": "7b6b39b8a0704b4a3936bc4326ea04f6c89e6267b6b138e6cef5e5aa763f71b2",
+ "app/v2/broker_read/api.py": "41e94b7e9407fdaddd932f88001b1bef0a0778ad49079ac47e076e09817e4a16",
+ "app/v2/broker_read/contract.py": "f2862af9a7ad28e9b468b2d5b84c47e3a363227778cc3d449db785894f785176",
+ "app/v2/broker_read/health.py": "66ad41394baa6765cf349129e494311749a85226b6e49fc9607ac0a322a0a8de",
+ "app/v2/broker_read/providers/__init__.py": "92d55d2d3b593224ec3757bcb02cd40e3d22b2b413e2f91c431cbe7c7fc5c6a5",
+ "app/v2/broker_read/providers/exness_mt5.py": "782482977da2df897f3f32d35e532dc8103f360caa35d4fb1defc2f875bab1c0",
+ "app/v2/broker_read/reconcile.py": "9420e1a09fd366268adaa9000b53071415f4e04b60d4103864f99750528aba9c",
+ "app/v2/broker_read/sync.py": "d1e5d4b56c881db4547dcea88ea2e4f34e8642509916907c0a228f47714dfa09",
+ "app/v2/broker_read/vault.py": "a647531f3c8d821b39c01bca3a3af25f8f9470d4670183cfcff918ceaf1564ea",
+ "app/v2/rbac/permissions.py": "556e3b10d9198c78abb13ee769d960dadf0bb247f6f89c3b15c01f15604636bf",
+ "tests/test_broker_integration.py": "1438bac0405e0e99bf4147871257f3774a51da6edbfc100236c9d48dc9d99e29",
+ "tests/test_execution_research_safety.py": "e3ad90e7221d90dbde98969ca0176b04155d3cac1e45d9fa2034b81c6dc406d4",
+ "tests/test_v2_be9_boundaries.py": "9ba9fd8290d5861911582a5286752c7ed5aee71c06e56acb9f4ac4337355f91f",
+ "tests/test_v2_be9_contract.py": "12733c46f5fe495513fe2f44b66eadee5845abb35b03ca0b97bdc23131610d5e",
+ "tests/test_v2_be9_migration.py": "379b0be85b57e8da66e429b289cb047e05668ea6039b112c86f8aae11a32f612",
+ "tests/test_v2_be9_sync.py": "038f5fc2a8f23e4755579f526ff30b3a7e087602ea49aa8c3f9c61f21a938ca9",
+ "tests/test_wave6_closeout.py": "b6877ffcc96bfb93d9f3f9dab70a0e8654056bcc69fde85db4555e8852637045",
+ "tests/test_wave7_closeout.py": "3b228e0218eead067117ee6ba810aafadd9e0c869f4fd7a1ec47fc433accec40",
+}
+bad = []
+for rel, want in sorted(PINS.items()):
+    p = os.path.join(os.getcwd(), rel.replace("/", os.sep))
+    if not os.path.isfile(p): bad.append(rel); print("MISSING", rel); continue
+    got = hashlib.sha256(open(p, "rb").read()).hexdigest()
+    print(("OK   " if got == want else "FAIL ") + rel)
+    if got != want: bad.append(rel)
+print(f"\n{len(PINS)-len(bad)}/{len(PINS)} bodies pin-exact")
+raise SystemExit(1 if bad else 0)
+'@ | python -
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) python -m pytest tests -q 2>&1 | Select-Object -Last 4
+    def test_b_audit_append_failure_never_500s_endpoint(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1077 passed, 3783 warnings in 1462.86s (0:24:22)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # required banner: "1077 passed"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260906155218
+**********************

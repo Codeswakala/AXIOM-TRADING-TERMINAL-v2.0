@@ -1,0 +1,8 @@
+{
+  "_fixture_note": "malformed-shape test sample",
+  "meta": {"symbol": "EUR/USD", "interval": "1min"},
+  "values": [
+    {"datetime": "2026-08-20 10:00:00", "open": "not-a-number", "high": "1.10075", "low": "1.10030", "close": "1.10060"}
+  ],
+  "status": "ok"
+}

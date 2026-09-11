@@ -1,0 +1,27 @@
+/**
+ * PanelActionBar Styles (UI-009-P03) — Pure Tokenized CSS
+ */
+
+.ix-panel-action-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  width: 100%;
+  font-family: var(--ix-font-sans);
+}
+
+.ix-panel-action-bar--align-start {
+  justify-content: flex-start;
+}
+
+.ix-panel-action-bar--align-end {
+  justify-content: flex-end;
+}
+
+.ix-panel-action-bar--align-between {
+  justify-content: space-between;
+}
+
+.ix-panel-action-bar--wrap {
+  flex-wrap: wrap;
+}

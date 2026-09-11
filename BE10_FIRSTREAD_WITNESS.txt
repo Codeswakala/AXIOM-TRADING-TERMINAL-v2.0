@@ -1,0 +1,149 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260906230301
+Username: DESKTOP-G2M1HQ9\Swakala
+RunAs User: DESKTOP-G2M1HQ9\Swakala
+Configuration Name: 
+Machine: DESKTOP-G2M1HQ9 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\victo\AppData\Local\Programs\Microsoft VS Code\a44adf7f53\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 13340
+PSVersion: 5.1.26100.9278
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9278
+BuildVersion: 10.0.26100.9278
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\BE10_FIRSTREAD_WITNESS.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $Base = "http://127.0.0.1:8000"; $ACA = "$Base/api/v1/v2/account-context"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # ---- negative RBAC arm first: no token -> 401 ----
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) try { Invoke-RestMethod -Uri "$ACA/alignment" | Out-Null; "RBAC 401 arm: UNEXPECTED PASS" }
+catch { "RBAC 401 arm: REFUSED as expected ($($_.Exception.Response.StatusCode.value__))" }
+>> TerminatingError(Invoke-RestMethod): "Unable to connect to the remote server"
+RBAC 401 arm: REFUSED as expected ()
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # ---- app up on the fielded file ----
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) if (Get-NetTCPConnection -LocalPort 8000 -State Listen -EA SilentlyContinue) { throw "port 8000 busy - close the old app window first" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $app = Start-Job -Name be10fr -ScriptBlock {
+    param($dir)
+    Set-Location $dir
+    $env:AXIOM_DATABASE_URL = "sqlite+aiosqlite:///C:/Users/victo/.vscode/AXIOM/axiom/backend/axiom_dev.db"
+    python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+} -ArgumentList "C:\Users\victo\.vscode\AXIOM\axiom\backend"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $up = $false
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) 1..40 | ForEach-Object { if (Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue) { $up = $true }; if ($up) { break }; Start-Sleep 1 }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) if (-not $up) { throw "app never came up - STOP" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) "app up."
+app up.
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $pw  = Read-Host -AsSecureString "operator password"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $lp  = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($pw))
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $r   = Invoke-RestMethod -Method POST -Uri "$Base/api/v1/auth/login" -ContentType 'application/json' -Body (@{ username='admin'; password=$lp } | ConvertTo-Json)
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $lp = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $tok = $r.tokens.access_token; if (-not $tok) { throw "token empty - STOP" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $H = @{ Authorization = "Bearer $tok" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) "token acquired: True"
+token acquired: True
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) "---- GET /account-context/alignment ----"
+---- GET /account-context/alignment ----
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $al = Invoke-RestMethod -Uri "$ACA/alignment" -Headers $H
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $al | ConvertTo-Json -Depth 8
+{
+    "outcome":  "computed",
+    "rows":  [
+
+             ],
+    "basis_sync_run_id":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "basis_age_hours":  4.973,
+    "staleness":  "fresh",
+    "banner":  null,
+    "digest":  "6a4df8863c6bc8fb633ad7f099d47ac6068bd14e2198e17de77ad8955d6b970f",
+    "engine_version":  "ace-1.0.0",
+    "unmapped_count":  0,
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T20:03:37.543251+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) "---- GET /account-context/summary ----"
+---- GET /account-context/summary ----
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $su = Invoke-RestMethod -Uri "$ACA/summary" -Headers $H
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $su | ConvertTo-Json -Depth 8
+{
+    "outcome":  "computed",
+    "verdict_counts":  {
+
+                       },
+    "total_rows":  0,
+    "unmapped_count":  0,
+    "basis_sync_run_id":  "d2e869a4-678d-4128-854c-0161bf1342ea",
+    "basis_age_hours":  4.973,
+    "staleness":  "fresh",
+    "banner":  null,
+    "digest":  "6a4df8863c6bc8fb633ad7f099d47ac6068bd14e2198e17de77ad8955d6b970f",
+    "mode":  "RESEARCH",
+    "correlation_id":  null,
+    "timestamp":  "2026-09-06T20:03:37.963567+00:00"
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) # ---- digest law: the wire digest must equal the engine witness 6a4df886...707f ----
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) $d = $al.digest
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) "wire digest: $d"
+wire digest: 6a4df8863c6bc8fb633ad7f099d47ac6068bd14e2198e17de77ad8955d6b970f
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) if ($d -eq "6a4df8863cbc8fb633ad7f099d47ac6068bd14e2198e17de77ad8955d6b970f") { "DIGEST LAW: wire == engine witness == scratch == fielded   PASS" }
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) else { "NOTE: digest differs - adjudication input (STOP-LAW: paste)" }
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else { "NOTE: digest differs - adjudication input (STOP-LAW: paste)"  ...
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the
+name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else { "NOTE: digest differs - adjudication input (STOP-LAW: paste)"  ...
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) Stop-Job $app; Remove-Job $app; $tok = $null
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cvicto\x5c.vscode\x5cAXIOM\x5caxiom\x5cbackendPS C:\Users\victo\.vscode\AXIOM\axiom\backend> ]633;B
+(.venv) Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260906230343
+**********************

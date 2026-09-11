@@ -1,0 +1,135 @@
+# ==========================================================
+#  SECRETS & CREDENTIALS  — never commit these
+# ==========================================================
+.env
+.env.*
+!.env.example
+*.env
+secrets/
+secrets.*
+config.local.*
+settings.local.*
+
+# Keys, certificates, tokens
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*.cer
+*.der
+*.asc
+*.gpg
+*.ppk
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.token
+*_token
+*.credentials
+credentials.json
+client_secret*.json
+service-account*.json
+serviceAccountKey.json
+gha-creds-*.json
+
+# Cloud / infra credentials
+.aws/
+.azure/
+.gcloud/
+.kube/
+kubeconfig
+*.tfvars
+!*.tfvars.example
+*.tfstate
+*.tfstate.*
+.terraform/
+.vault-token
+.npmrc
+.pypirc
+.netrc
+.git-credentials
+.htpasswd
+
+# ==========================================================
+#  DATA  — keep private/regulated data out of the repo
+# ==========================================================
+data/raw/
+data/private/
+data/sensitive/
+data/interim/
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+*.bak
+# Large/tabular exports (whitelist small samples explicitly)
+*.parquet
+*.feather
+*.h5
+*.hdf5
+
+# ==========================================================
+#  DEPENDENCIES / BUILD / CACHE
+# ==========================================================
+node_modules/
+.pnp.*
+.yarn/
+dist/
+build/
+out/
+target/
+coverage/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.vite/
+.parcel-cache/
+.output/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.tox/
+.nox/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.cache/
+*.log
+logs/
+
+# ==========================================================
+#  OS / EDITOR
+# ==========================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/settings.json.example
+*.swp
+*.swo
+*~
+.ipynb_checkpoints/
+
+# ==========================================================
+#  GOVERNANCE EVIDENCE / PROVENANCE BASELINE PRIVACY (TD-AXIOM-GIT-PROVENANCE)
+#  Evidence is a review input, not permanent source-of-record material.
+#  Already-tracked files require an explicit `git rm --cached` during the
+#  authorized baseline staging procedure; ignore rules alone do not untrack.
+# ==========================================================
+docs/evidence/**
+**/OPERATOR_RESULTS*.md
+**/*_OPERATOR_RESULTS*.md
+**/UI-*_RAW_*.json
+scripts/*_evidence*.ps1
+**/*_RAW_*.json

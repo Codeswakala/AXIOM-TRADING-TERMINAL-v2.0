@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# TD-AXIOM-GIT-PROVENANCE: identical staged conflict/value guard for every commit.
+exec python scripts/git_provenance_guard.py --mode pre-commit

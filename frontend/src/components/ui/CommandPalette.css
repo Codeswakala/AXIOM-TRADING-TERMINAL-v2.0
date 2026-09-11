@@ -1,0 +1,132 @@
+/**
+ * CommandPalette Styles (UI-009-P05) — Pure Tokenized CSS
+ */
+
+.ix-command-palette {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 580px;
+  background-color: var(--ix-bg-surface-raised);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-lg);
+  box-shadow: var(--ix-elevation-overlay);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  animation: ix-command-fade var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-command-palette input {
+  width: 100%;
+  padding: var(--ix-space-3) var(--ix-space-4);
+  background-color: var(--ix-input-bg, var(--ix-bg-surface));
+  border: none;
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  outline: none;
+}
+
+.ix-command-palette input:focus {
+  border-bottom-color: var(--ix-color-accent);
+}
+
+.ix-command-palette input::placeholder {
+  color: var(--ix-text-muted);
+}
+
+.ix-command-list {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: var(--ix-space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-2);
+}
+
+.ix-command-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-1);
+}
+
+.ix-command-group .ix-nav-group-title {
+  padding: var(--ix-space-1) var(--ix-space-2);
+  margin: 0;
+  font-size: var(--ix-type-metadata);
+  font-weight: 600;
+  color: var(--ix-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ix-command-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ix-space-2) var(--ix-space-3);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--ix-radius-sm);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease),
+              color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-command-item:hover,
+.ix-command-item:focus-visible,
+.ix-command-item.active {
+  background-color: var(--ix-color-selection, var(--ix-bg-surface-muted));
+  color: var(--ix-text-primary);
+}
+
+.ix-command-item:active {
+  filter: brightness(0.95);
+}
+
+.ix-command-item:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+}
+
+.ix-command-item[aria-disabled="true"] {
+  opacity: var(--ix-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ix-command-item .ix-metadata {
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-muted);
+  font-family: var(--ix-font-mono);
+}
+
+@keyframes ix-command-fade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-command-palette {
+    animation: none;
+  }
+  .ix-command-item {
+    transition: none;
+  }
+}

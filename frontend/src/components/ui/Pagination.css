@@ -1,0 +1,124 @@
+/**
+ * Pagination Styles (UI-009-P04) — Pure Tokenized CSS
+ */
+
+.ix-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ix-space-4);
+  padding: var(--ix-space-3) var(--ix-space-4);
+  background-color: var(--ix-bg-surface-raised);
+  border-top: var(--ix-border-width) solid var(--ix-border-subtle);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  color: var(--ix-text-secondary);
+  flex-wrap: wrap;
+}
+
+.ix-pagination__info {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-3);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-pagination__mono {
+  font-family: var(--ix-font-mono);
+  color: var(--ix-text-primary);
+}
+
+.ix-pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-4);
+}
+
+.ix-pagination__page-size {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-pagination__size-select {
+  padding: var(--ix-space-1) var(--ix-space-2);
+  background-color: var(--ix-bg-surface);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-metadata);
+  outline: none;
+  cursor: pointer;
+}
+
+.ix-pagination__size-select:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+}
+
+.ix-pagination__buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+}
+
+.ix-pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ix-space-1) var(--ix-space-3);
+  min-height: 28px;
+  background-color: var(--ix-bg-surface);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-metadata);
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease),
+              border-color var(--ix-motion-fast) var(--ix-motion-ease),
+              color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-pagination__btn:hover:not(:disabled) {
+  background-color: var(--ix-bg-surface-muted);
+  border-color: var(--ix-border-strong);
+}
+
+.ix-pagination__btn:active:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.ix-pagination__btn:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 1px;
+}
+
+.ix-pagination__btn:disabled {
+  opacity: var(--ix-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ix-pagination__current-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 var(--ix-space-2);
+  background-color: var(--ix-color-accent);
+  color: var(--ix-button-primary-text);
+  border-radius: var(--ix-radius-sm);
+  font-family: var(--ix-font-mono);
+  font-size: var(--ix-type-metadata);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-pagination__btn {
+    transition: none;
+  }
+}

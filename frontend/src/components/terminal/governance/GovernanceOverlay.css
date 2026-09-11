@@ -1,0 +1,51 @@
+/* GovernanceOverlay (UI-CONV-P03 item 5) — Pure Tokenized CSS */
+
+.ix-governance-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--ix-shadow-overlay);
+  z-index: 1040;
+  /* The shell's overlay layer is pointer-events: none; the backdrop must
+     re-enable hit-testing or the dialog becomes click-transparent. */
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5vh 2vw;
+}
+
+.ix-governance-overlay {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1080px;
+  max-height: 88vh;
+  background-color: var(--ix-bg-surface-raised);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-lg);
+  box-shadow: var(--ix-elevation-overlay);
+  overflow: hidden;
+  font-family: var(--ix-font-sans);
+  color: var(--ix-text-primary);
+  animation: ix-command-fade var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-governance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ix-space-2) var(--ix-space-3);
+  border-bottom: var(--ix-border-width) solid var(--ix-border-subtle);
+  background-color: var(--ix-bg-root);
+}
+
+.ix-governance-body {
+  overflow-y: auto;
+  padding: var(--ix-space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-governance-overlay {
+    animation: none;
+  }
+}

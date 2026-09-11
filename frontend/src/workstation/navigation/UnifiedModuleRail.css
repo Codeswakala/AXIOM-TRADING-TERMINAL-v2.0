@@ -1,0 +1,158 @@
+/* Unified Left Module Rail — Compact Icon Rail with Launcher Affordances (B-CONV-1 / B-CONV-4) */
+
+.unified-module-rail {
+  grid-area: rail;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 48px;
+  background: var(--ix-bg-surface);
+  border-right: 1px solid var(--ix-border-subtle);
+  padding: var(--ix-space-2) 0;
+  z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rail-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rail-divider {
+  width: 24px;
+  height: 1px;
+  background: var(--ix-border-subtle);
+  margin: 6px 0;
+}
+
+.rail-button {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--ix-radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ix-text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background-color var(--ix-motion-fast) var(--ix-motion-ease),
+    color var(--ix-motion-fast) var(--ix-motion-ease),
+    border-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.rail-button:hover {
+  background: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+}
+
+.rail-button.active {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--ix-color-accent);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.rail-button.active::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--ix-color-accent);
+}
+
+.rail-button:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 1px;
+}
+
+.rail-badge-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--ix-color-warning);
+  color: var(--ix-color-midnight);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 14px;
+  text-align: center;
+}
+
+/* =========================================================================
+   BO-F-06.1 — navigation legibility (Blueprint §8 Addendum, Operator binding)
+   The collapsed rail now carries the semantic SVG icon + a VISIBLE short
+   label under it (no icon-only-with-hidden-label). Token-driven: the SVG
+   strokes use currentColor, so every theme's text/accent applies.
+   ========================================================================= */
+
+.unified-module-rail {
+  width: 64px;
+}
+
+.rail-button {
+  width: 56px;
+  height: auto;
+  min-height: 48px;
+  padding: var(--ix-space-1) 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.workspace-icon {
+  color: inherit;
+}
+
+.rail-label {
+  display: block;
+  max-width: 54px;
+  font-family: var(--ix-font-sans);
+  font-size: 0.58rem;
+  font-weight: var(--ix-font-weight-medium);
+  line-height: 1.15;
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* FE-U02 (PC-FEU02-1 C4): rail collapse control — honestly persisted. */
+.rail-collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 28px;
+  border: none;
+  border-bottom: 1px solid var(--ix-border-subtle);
+  background: transparent;
+  color: var(--ix-text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.rail-collapse-btn:hover {
+  color: var(--ix-text-primary);
+}
+
+.rail-collapse-btn:focus {
+  outline: 2px solid var(--ix-color-electric-blue);
+  outline-offset: -2px;
+}
+
+.unified-module-rail.rail-collapsed .rail-label {
+  display: none;
+}

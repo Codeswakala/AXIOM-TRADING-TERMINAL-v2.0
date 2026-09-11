@@ -1,0 +1,80 @@
+/* MonitoringAlertsPanel — BO-F-04 styles (2026-08-21)
+   Domain filter bar, domain chips, meta lines. Pure token consumption. */
+
+.alerts-domain-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ix-space-1);
+  margin: var(--ix-space-2) 0;
+}
+
+.alerts-domain-tab {
+  padding: 2px var(--ix-space-2);
+  font-size: var(--ix-font-size-metadata, 0.75rem);
+  font-weight: var(--ix-font-weight-semibold);
+  color: var(--ix-text-muted);
+  background: transparent;
+  border: var(--ix-border-width, 1px) solid transparent;
+  border-radius: var(--ix-radius-sm);
+  cursor: pointer;
+}
+
+.alerts-domain-tab:hover {
+  color: var(--ix-text-primary);
+  background-color: var(--ix-bg-surface);
+}
+
+.alerts-domain-tab.active {
+  color: var(--ix-color-electric-blue);
+  background-color: var(--ix-bg-root);
+  border-color: var(--ix-border-subtle);
+}
+
+.alerts-domain-count {
+  margin-left: auto;
+  font-size: 0.65rem;
+  color: var(--ix-text-muted);
+}
+
+.alert-right-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ix-space-1);
+}
+
+.alert-domain-chip {
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  padding: 1px var(--ix-space-1);
+  border-radius: var(--ix-radius-sm);
+  border: var(--ix-border-width, 1px) solid var(--ix-border-subtle);
+  color: var(--ix-text-secondary);
+  background-color: var(--ix-bg-surface-raised);
+}
+
+.alert-domain-chip.market {
+  color: var(--ix-color-electric-blue);
+}
+
+.alert-domain-chip.signal {
+  color: var(--ix-color-warning);
+}
+
+.alert-domain-chip.risk {
+  color: var(--ix-color-critical);
+}
+
+.alert-domain-chip.system {
+  color: var(--ix-color-information);
+}
+
+.alert-domain-chip.research {
+  color: var(--ix-text-muted);
+}
+
+.alert-meta-line {
+  font-size: 0.65rem;
+  color: var(--ix-text-muted);
+}

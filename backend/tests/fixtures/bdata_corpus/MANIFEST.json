@@ -1,0 +1,117 @@
+{
+  "files": {
+    "kraken_ADAUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "ADAUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "14f01ca4c41c5de4a845c6d56064de7f5bd440aee1c5757686505e83d4b2764d",
+      "source": "kraken_d1"
+    },
+    "kraken_BTCUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "XBTUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "96426fdf67de9cfbe28265eb195ecc4633285b4145d33692dc57d3eedbba16d7",
+      "source": "kraken_d1"
+    },
+    "kraken_DOGEUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "DOGEUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "ea82bedd5e1096f8e75aa5e1859fdfe25a10e83f07e971150e6648004e328623",
+      "source": "kraken_d1"
+    },
+    "kraken_ETHUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "ETHUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "357edd3aba922db9946c81c1362f691bc38aa349fc226d1f0143c6acc5bee760",
+      "source": "kraken_d1"
+    },
+    "kraken_SOLUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "SOLUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "2a7d145d9e9a0409377655082daab18998d5bd8871b08a70afbc2a59a909421e",
+      "source": "kraken_d1"
+    },
+    "kraken_XRPUSD_D1.csv": {
+      "bars": 701,
+      "first_utc": "2024-08-30T00:00:00+00:00",
+      "instrument": "XRPUSD",
+      "last_utc": "2026-07-31T00:00:00+00:00",
+      "sha256": "5748eeb69ac78a86a2833df2d072237e8bfd54a939ecdd03333aeda12a5f7a23",
+      "source": "kraken_d1"
+    },
+    "okx_ADAUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "ADA-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "fd1dbb6b7fa66341c4cb7311a80a3c50c7b8a44b3dc12e2d52931f44c0c2063d",
+      "source": "okx_h1"
+    },
+    "okx_BTCUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "BTC-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "bd8769b660558b0dde1dbc7f2301574b486629c69bab7207c53ed40ec5406582",
+      "source": "okx_h1"
+    },
+    "okx_DOGEUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "DOGE-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "6b7b11f7a2221d7ce7a0d7b7cd5a5b2b416eef9f06c778d0eefba9849a2cc4aa",
+      "source": "okx_h1"
+    },
+    "okx_ETHUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "ETH-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "5e1a7c81a63a267b9dd94f49520c09ddf33ce30d6c275ecb48b2593c19c74a6f",
+      "source": "okx_h1"
+    },
+    "okx_SOLUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "SOL-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "1bcc269f2d3028c62b5ed3f205bb072bdd68800bdac4dda43fd3988bb7c1fc80",
+      "source": "okx_h1"
+    },
+    "okx_XRPUSDT_H1.csv": {
+      "bars": 17520,
+      "first_utc": "2024-08-01T00:00:00+00:00",
+      "instrument": "XRP-USDT",
+      "last_utc": "2026-07-31T23:00:00+00:00",
+      "sha256": "33befbfa73b685509bc050001560b731a9cea4785d7dac1804fd5c3e38c890dd",
+      "source": "okx_h1"
+    }
+  },
+  "retrieved_at_utc": "2026-08-20T07:31:06.434933+00:00",
+  "sources": {
+    "kraken_d1": {
+      "endpoint": "https://api.kraken.com/0/public/OHLC",
+      "instrument_class": "crypto spot, D1 OHLCV",
+      "license_reference": "Kraken public market data; see B-DATA_SOURCE_LICENSE_DECLARATION.md"
+    },
+    "okx_h1": {
+      "endpoint": "https://www.okx.com/api/v5/market/history-candles",
+      "instrument_class": "crypto spot, H1 OHLCV, confirmed candles only",
+      "license_reference": "OKX public market data; see B-DATA_SOURCE_LICENSE_DECLARATION.md"
+    }
+  },
+  "window": {
+    "end_utc": "2026-08-01T00:00:00+00:00",
+    "start_utc": "2024-08-01T00:00:00+00:00"
+  }
+}

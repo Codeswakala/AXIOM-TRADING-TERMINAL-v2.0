@@ -1,0 +1,89 @@
+/**
+ * Input Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-1);
+  font-family: var(--ix-font-sans);
+}
+
+.ix-input-label {
+  font-size: var(--ix-type-metadata);
+  font-weight: 500;
+  color: var(--ix-text-secondary);
+}
+
+.ix-input-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--ix-input-bg);
+  border-width: var(--ix-border-width);
+  border-style: solid;
+  border-color: var(--ix-input-border);
+  border-radius: var(--ix-input-radius);
+  transition: border-color var(--ix-motion-fast) var(--ix-motion-ease),
+              box-shadow var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-input-box:focus-within {
+  border-color: var(--ix-color-focus, var(--ix-input-focus-border));
+  outline: 2px solid var(--ix-color-focus, var(--ix-input-focus-border));
+  outline-offset: 2px;
+}
+
+.ix-input-wrapper--error .ix-input-box {
+  border-color: var(--ix-color-critical);
+}
+
+.ix-input-wrapper--disabled .ix-input-box {
+  opacity: var(--ix-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ix-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  color: var(--ix-input-text);
+  padding: var(--ix-space-2) var(--ix-space-3);
+  min-height: 36px;
+}
+
+.ix-input::placeholder {
+  color: var(--ix-input-placeholder);
+}
+
+.ix-input:disabled {
+  cursor: not-allowed;
+}
+
+.ix-input-icon {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--ix-space-2);
+  color: var(--ix-text-muted);
+}
+
+.ix-input-error {
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-color-critical);
+  margin: 0;
+}
+
+.ix-input-helper {
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-muted);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-input-box {
+    transition: none;
+  }
+}

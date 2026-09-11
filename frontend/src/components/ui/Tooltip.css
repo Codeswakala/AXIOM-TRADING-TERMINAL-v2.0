@@ -1,0 +1,58 @@
+/**
+ * Tooltip Styles (UI-009-P02) — Pure Tokenized CSS
+ */
+
+.ix-tooltip-container {
+  display: inline-flex;
+  position: relative;
+}
+
+.ix-tooltip-trigger {
+  display: inline-flex;
+}
+
+.ix-tooltip {
+  position: absolute;
+  z-index: 200;
+  background-color: var(--ix-tooltip-bg);
+  color: var(--ix-tooltip-text);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-metadata);
+  padding: var(--ix-space-1) var(--ix-space-2);
+  border-radius: var(--ix-radius-sm);
+  border: var(--ix-border-width) solid var(--ix-border-strong);
+  box-shadow: var(--ix-elevation-overlay);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-tooltip--top {
+  bottom: calc(100% + var(--ix-space-1));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ix-tooltip--bottom {
+  top: calc(100% + var(--ix-space-1));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ix-tooltip--left {
+  right: calc(100% + var(--ix-space-1));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ix-tooltip--right {
+  left: calc(100% + var(--ix-space-1));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-tooltip {
+    transition: none;
+  }
+}

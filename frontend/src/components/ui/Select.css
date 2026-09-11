@@ -1,0 +1,121 @@
+/**
+ * Select Styles (UI-009-P02 / UI-011-P03) — Pure Tokenized CSS
+ */
+
+.ix-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-1);
+  font-family: var(--ix-font-sans);
+  position: relative;
+}
+
+.ix-select-label {
+  font-size: var(--ix-type-metadata);
+  font-weight: 500;
+  color: var(--ix-text-secondary);
+}
+
+.ix-select-box {
+  position: relative;
+}
+
+.ix-select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--ix-input-bg);
+  border-width: var(--ix-border-width);
+  border-style: solid;
+  border-color: var(--ix-input-border);
+  border-radius: var(--ix-input-radius);
+  color: var(--ix-input-text);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  padding: var(--ix-space-2) var(--ix-space-3);
+  min-height: 36px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--ix-motion-fast) var(--ix-motion-ease),
+              box-shadow var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-select-trigger:hover:not(:disabled) {
+  border-color: var(--ix-border-strong);
+}
+
+.ix-select-trigger:focus-visible {
+  border-color: var(--ix-color-focus);
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+.ix-select-wrapper--disabled .ix-select-trigger {
+  opacity: var(--ix-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.ix-select-wrapper--error .ix-select-trigger {
+  border-color: var(--ix-color-critical);
+}
+
+.ix-select-arrow {
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-select-dropdown {
+  position: absolute;
+  top: calc(100% + var(--ix-space-1));
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--ix-bg-surface-raised);
+  border: var(--ix-border-width) solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-sm);
+  box-shadow: var(--ix-elevation-overlay);
+  list-style: none;
+  margin: 0;
+  padding: var(--ix-space-1) 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.ix-select-option {
+  padding: var(--ix-space-2) var(--ix-space-3);
+  font-size: var(--ix-type-body);
+  color: var(--ix-text-primary);
+  cursor: pointer;
+  transition: background-color var(--ix-motion-fast) var(--ix-motion-ease),
+              color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-select-option:hover,
+.ix-option--highlighted {
+  background-color: var(--ix-color-selection);
+}
+
+.ix-select-option:active {
+  background-color: var(--ix-color-selection);
+  filter: brightness(0.95);
+}
+
+.ix-option--selected {
+  background-color: var(--ix-bg-surface);
+  font-weight: 600;
+  color: var(--ix-color-accent);
+}
+
+.ix-select-error {
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-color-critical);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-select-trigger,
+  .ix-select-option {
+    transition: none;
+  }
+}

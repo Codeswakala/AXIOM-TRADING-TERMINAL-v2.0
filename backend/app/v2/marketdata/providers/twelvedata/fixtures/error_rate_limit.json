@@ -1,0 +1,6 @@
+{
+  "_fixture_note": "static candidate documentation error-shape sample",
+  "code": 429,
+  "message": "You have run out of API credits for the current minute",
+  "status": "error"
+}

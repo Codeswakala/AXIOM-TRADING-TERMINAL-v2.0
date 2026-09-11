@@ -1,0 +1,42 @@
+/**
+ * SkipLink Styles (UI-010-P01) — Pure Tokenized CSS
+ *
+ * Visually hidden off-screen until focused via Tab.
+ * Renders with high-contrast focus outline and tokenized surface background.
+ */
+
+.ix-skip-link {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  z-index: 2000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ix-space-2) var(--ix-space-4);
+  background-color: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  border: var(--ix-border-width) solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-body);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--ix-elevation-overlay);
+  outline: none;
+  transition: top var(--ix-motion-fast) var(--ix-motion-ease), left var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-skip-link:focus,
+.ix-skip-link:focus-visible {
+  top: var(--ix-space-2);
+  left: var(--ix-space-4);
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-skip-link {
+    transition: none;
+  }
+}

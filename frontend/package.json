@@ -1,0 +1,37 @@
+{
+  "name": "axiom-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "AXIOM operator terminal \u2014 Wave 0 foundation shell",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "lightweight-charts": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@types/node": "^26.2.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^6.0.3",
+    "jsdom": "^25.0.1",
+    "playwright": "^1.62.1",
+    "typescript": "^5.6.3",
+    "vite": "^8.1.4",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "nanoid": "^3.3.18"
+  }
+}

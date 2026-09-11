@@ -1,0 +1,581 @@
+/* Unified Institutional Workspace Shell (CONV-P01 / B-CONV-1) */
+
+.ix-shell.unified-terminal-shell {
+  height: 100vh;
+  max-height: 100vh;
+  display: grid;
+  grid-template-rows: 42px minmax(0, 1fr);
+  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-areas:
+    "header header"
+    "rail workspace";
+  background: var(--ix-bg-root);
+  color: var(--ix-text-primary);
+  font-family: var(--ix-font-sans);
+  overflow: hidden;
+}
+
+.ix-shell :focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   TOP GLOBAL HEADER BAR (28-42px Compact Navigation & Governance Bar)
+   ========================================================================= */
+
+.ix-global-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ix-space-3);
+  padding: 0 var(--ix-space-3);
+  border-bottom: 1px solid var(--ix-border-subtle);
+  background: var(--ix-bg-shell);
+  z-index: 20;
+}
+
+.ix-brand-block,
+.ix-header-status,
+.ix-operator-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+}
+
+/* POST-CLOSURE brand (Operator-supplied logo image): the mark fills its
+   tile; the opaque square image carries its own dark background. */
+.ix-brand-mark img.axiom-logo-mark {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+
+.ix-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ix-radius-sm);
+  background: linear-gradient(135deg, var(--ix-color-accent), var(--ix-color-blue-700));
+  color: var(--ix-text-primary);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.ix-brand-copy {
+  display: flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+}
+
+.ix-workspace-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ix-text-primary);
+}
+
+.ix-metadata {
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-muted);
+}
+
+.ix-clock-badge {
+  font-size: 0.75rem;
+  color: var(--ix-text-muted);
+  padding: 2px 6px;
+  border-radius: var(--ix-radius-sm);
+  background: var(--ix-bg-surface-raised);
+  border: 1px solid var(--ix-border-subtle);
+}
+
+.ix-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+  padding: 2px 8px;
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ix-status-chip.critical {
+  color: var(--ix-color-critical);
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.ix-status-chip.success {
+  color: var(--ix-color-success);
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.ix-status-chip.info {
+  color: var(--ix-color-accent);
+  border-color: rgba(37, 99, 235, 0.4);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.ix-status-chip.neutral {
+  color: var(--ix-text-muted);
+}
+
+.ix-status-chip.posture-simulated {
+  color: var(--ix-color-cyan-500);
+  border-color: rgba(76, 201, 240, 0.4);
+  background: rgba(76, 201, 240, 0.08);
+}
+
+.ix-shell-button {
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  background: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    background-color var(--ix-motion-fast) var(--ix-motion-ease),
+    border-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-shell-button:hover {
+  background: var(--ix-bg-surface-muted);
+  border-color: var(--ix-border-strong);
+}
+
+.ix-shell-button.command-palette-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-2);
+}
+
+.ix-shell-button.command-palette-trigger span {
+  font-size: 0.7rem;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: var(--ix-bg-root);
+  border: 1px solid var(--ix-border-subtle);
+}
+
+/* =========================================================================
+   PRIMARY WORKSPACE STAGE
+   ========================================================================= */
+
+.ix-primary-workspace {
+  grid-area: workspace;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--ix-bg-root);
+}
+
+.ix-workspace-host {
+  min-height: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* For Non-Terminal Standard Pages, provide clean container padding */
+.ix-workspace-host > *:not(.trading-terminal-workspace) {
+  padding: var(--ix-space-4);
+  box-sizing: border-box;
+}
+
+/* Retired Legacy Panels (B-CONV-1 / Blueprint §3) */
+.ix-shell .legacy-retired-chrome,
+.ix-shell .legacy-retired-panel {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* When TradingTerminalWorkspace is active, full-bleed container */
+.ix-shell.terminal-root-active .ix-workspace-host {
+  padding: 0;
+  overflow: hidden;
+}
+
+.ix-shell.terminal-root-active .ix-primary-workspace {
+  overflow: hidden;
+}
+
+/* =========================================================================
+   OVERLAY & COMMAND PALETTE LAYER
+   ========================================================================= */
+
+.ix-overlay-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.ix-command-palette {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: min(640px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  pointer-events: auto;
+  border: 1px solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-lg);
+  background: var(--ix-bg-surface);
+  box-shadow: var(--ix-elevation-overlay);
+  padding: var(--ix-space-4);
+  backdrop-filter: blur(16px);
+}
+
+.ix-command-palette input {
+  width: 100%;
+  margin-bottom: var(--ix-space-3);
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  background: var(--ix-bg-root);
+  color: var(--ix-text-primary);
+  padding: 0.65rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.ix-command-palette input:focus {
+  outline: 2px solid var(--ix-color-focus);
+  border-color: var(--ix-color-accent);
+}
+
+.ix-command-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-1);
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.ix-command-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: var(--ix-space-2);
+}
+
+.ix-command-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ix-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--ix-radius-sm);
+  background: transparent;
+  color: var(--ix-text-primary);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.ix-command-item:hover,
+.ix-command-item.active {
+  border-color: var(--ix-border-subtle);
+  background: var(--ix-bg-surface-raised);
+}
+
+.ix-command-item[aria-disabled="true"] {
+  color: var(--ix-text-muted);
+  cursor: not-allowed;
+  opacity: var(--ix-opacity-disabled);
+}
+
+/* Modals & Dialogs */
+.ix-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.ix-global-dialog {
+  width: min(520px, calc(100vw - 32px));
+  border: 1px solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-lg);
+  background: var(--ix-bg-surface);
+  color: var(--ix-text-primary);
+  box-shadow: var(--ix-elevation-overlay);
+  padding: var(--ix-space-6);
+}
+
+.ix-global-dialog h2 {
+  margin: 0 0 var(--ix-space-3);
+  font-size: 1.1rem;
+}
+
+.ix-notification-layer {
+  position: fixed;
+  right: var(--ix-space-4);
+  bottom: var(--ix-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-2);
+  width: min(420px, calc(100vw - 32px));
+  pointer-events: auto;
+  z-index: 60;
+}
+
+.ix-notification {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--ix-space-3);
+  align-items: start;
+  border: 1px solid var(--ix-border-strong);
+  border-left-width: 4px;
+  border-radius: var(--ix-radius-md);
+  background: var(--ix-bg-surface);
+  color: var(--ix-text-primary);
+  padding: var(--ix-space-3);
+  box-shadow: var(--ix-elevation-overlay);
+}
+
+.ix-notification.semantic-information {
+  border-left-color: var(--ix-color-accent);
+}
+
+.ix-notification.semantic-success {
+  border-left-color: var(--ix-color-success);
+}
+
+.ix-notification.semantic-warning {
+  border-left-color: var(--ix-color-warning);
+}
+
+.ix-notification.semantic-critical {
+  border-left-color: var(--ix-color-critical);
+}
+
+.ix-notification.semantic-governance {
+  border-left-color: var(--ix-color-governance);
+}
+
+.ix-notification.semantic-secondary {
+  border-left-color: var(--ix-text-secondary);
+}
+
+.ix-notification-icon {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  border: 1px solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-sm);
+  color: var(--ix-text-primary);
+}
+
+.ix-notification p {
+  margin: 2px 0;
+  color: var(--ix-text-secondary);
+  font-size: 0.85rem;
+}
+
+.ix-notification small {
+  color: var(--ix-text-muted);
+}
+
+.ix-notification-dismiss {
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  background: var(--ix-bg-surface-raised);
+  color: var(--ix-text-primary);
+  cursor: pointer;
+}
+
+/* Breadcrumb Trail */
+.ix-breadcrumb-trail ol {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--ix-type-metadata);
+  color: var(--ix-text-muted);
+}
+
+.ix-breadcrumb-trail li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ix-breadcrumb-trail li + li::before {
+  content: "›";
+  color: var(--ix-text-muted);
+}
+
+.ix-breadcrumb-trail a {
+  color: var(--ix-color-accent);
+  text-decoration: none;
+}
+
+.ix-breadcrumb-trail a:hover,
+.ix-breadcrumb-trail a:focus-visible {
+  text-decoration: underline;
+}
+
+.ix-breadcrumb-trail [aria-current="page"] {
+  color: var(--ix-text-secondary);
+  font-weight: 600;
+}
+
+/* Workspace Switcher */
+.ix-workspace-switcher {
+  position: relative;
+}
+
+.ix-workspace-switcher-menu {
+  position: absolute;
+  top: calc(100% + var(--ix-space-2));
+  right: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-2);
+  width: min(360px, calc(100vw - var(--ix-space-8)));
+  max-height: 520px;
+  overflow-y: auto;
+  border: 1px solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-lg);
+  background: var(--ix-bg-surface);
+  box-shadow: var(--ix-elevation-overlay);
+  padding: var(--ix-space-3);
+}
+
+.ix-switcher-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ix-switcher-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--ix-radius-sm);
+  background: transparent;
+  color: var(--ix-text-primary);
+  padding: var(--ix-space-2) var(--ix-space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ix-switcher-item:hover,
+.ix-switcher-item:focus-visible,
+.ix-switcher-item[aria-current="page"] {
+  border-color: var(--ix-border-subtle);
+  background: var(--ix-bg-surface-raised);
+}
+
+.ix-switcher-item small {
+  color: var(--ix-text-muted);
+}
+
+/* Global Search */
+.ix-global-search {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: min(760px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  pointer-events: auto;
+  border: 1px solid var(--ix-border-strong);
+  border-radius: var(--ix-radius-lg);
+  background: var(--ix-bg-surface);
+  box-shadow: var(--ix-elevation-overlay);
+  padding: var(--ix-space-4);
+  backdrop-filter: blur(16px);
+}
+
+.ix-global-search input {
+  width: 100%;
+  margin: var(--ix-space-2) 0 var(--ix-space-3);
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  background: var(--ix-bg-root);
+  color: var(--ix-text-primary);
+  padding: var(--ix-space-3);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.ix-search-status {
+  margin-bottom: var(--ix-space-2);
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-metadata);
+}
+
+.ix-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ix-space-2);
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.ix-search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  border: 1px solid var(--ix-border-subtle);
+  border-radius: var(--ix-radius-sm);
+  background: transparent;
+  color: var(--ix-text-primary);
+  padding: var(--ix-space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ix-search-result:hover,
+.ix-search-result.active,
+.ix-search-result[aria-selected="true"] {
+  border-color: var(--ix-border-strong);
+  background: var(--ix-bg-surface-raised);
+}
+
+.ix-search-result small {
+  color: var(--ix-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .ix-header-status {
+    display: none;
+  }
+}
+
+/* FE-U02 (PC-FEU02-1 C3): truthful health chip tri-state. */
+.chrome-health-checking {
+  color: var(--ix-text-muted);
+}
+
+.chrome-health-reachable {
+  color: var(--ix-color-success-green);
+}
+
+.chrome-health-unreachable {
+  color: var(--ix-color-warning-amber);
+}

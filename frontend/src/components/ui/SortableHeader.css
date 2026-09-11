@@ -1,0 +1,75 @@
+/**
+ * SortableHeader Styles (UI-009-P04) — Pure Tokenized CSS
+ */
+
+.ix-sortable-header {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ix-space-1);
+  background: transparent;
+  border: none;
+  padding: var(--ix-space-1) var(--ix-space-2);
+  margin: calc(-1 * var(--ix-space-1)) calc(-1 * var(--ix-space-2));
+  border-radius: var(--ix-radius-sm);
+  font-family: var(--ix-font-sans);
+  font-size: var(--ix-type-panel-heading);
+  font-weight: 600;
+  color: var(--ix-text-secondary);
+  cursor: pointer;
+  outline: none;
+  transition: color var(--ix-motion-fast) var(--ix-motion-ease),
+              background-color var(--ix-motion-fast) var(--ix-motion-ease);
+}
+
+.ix-sortable-header:hover {
+  color: var(--ix-text-primary);
+  background-color: var(--ix-bg-surface-muted);
+}
+
+.ix-sortable-header:active {
+  filter: brightness(0.95);
+}
+
+.ix-sortable-header:focus-visible {
+  outline: 2px solid var(--ix-color-focus);
+  outline-offset: 2px;
+}
+
+.ix-sortable-header--active {
+  color: var(--ix-text-primary);
+}
+
+.ix-sortable-header__text {
+  line-height: 1.2;
+}
+
+.ix-sortable-header__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ix-text-muted);
+  font-size: var(--ix-type-metadata);
+  line-height: 1;
+}
+
+.ix-sortable-header__icon--active {
+  color: var(--ix-color-accent);
+  font-weight: bold;
+}
+
+/* Alignments */
+.ix-sortable-header--align-numeric,
+.ix-sortable-header--align-right {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.ix-sortable-header--align-center {
+  justify-content: center;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-sortable-header {
+    transition: none;
+  }
+}

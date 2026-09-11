@@ -1,0 +1,86 @@
+================================================================================
+ITRGA FIELD CARD v3 (FINAL FIELD BLOCK) -- BE-8 0048 COMPLETION PATH
+Governing: ITRGA-ISS-V2-0048-PACKS-005 + ITRGA_MEMO_V2_0048_APPLYREC_RECONSTRUCTION
+Date: 2026-09-05
+================================================================================
+
+PREREQUISITE: re-download ITRGA_V2_0048_VERIFY_PACK_V1.ps1 (Edition 2) to the
+repo root. Nothing else is re-downloaded. PINS untouched.
+
+PART A -- paste this ONE block into PowerShell at the repo root
+(C:\Users\victo\.vscode\AXIOM\axiom). It renames the apply transcript,
+measures the DB sha (pure read), writes the reconstructed apply record,
+verifies the VERIFY ed-2 identity, and lists the evidence directory:
+
+----8<---- PART A (copy from the next line) ----8<----
+$ErrorActionPreference = 'Stop'
+Set-Location C:\Users\victo\.vscode\AXIOM\axiom
+
+# STEP 1 - protect apply transcript (template-defect name -> evidence name)
+$ev  = ".\operator-evidence\BE-8"
+$odd = Join-Path $ev "0048-%PACK%-RUN-V1.txt"
+$ren = Join-Path $ev "0048-APPLY-RUN-V1.txt"
+if ((Test-Path $odd) -and !(Test-Path $ren)) { Move-Item $odd $ren; "transcript renamed" }
+if ((Test-Path $odd) -and (Test-Path $ren)) { throw "both transcripts present - STOP and report" }
+if (!(Test-Path $ren)) { throw "apply transcript missing - STOP and report" }
+
+# STEP 2 - measure (pure read)
+$dbsha = (Get-FileHash -Algorithm SHA256 ".\backend\axiom_dev.db").Hash.ToLower()
+$utc   = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+"DB_SHA256_MEASURED=$dbsha"
+"UTC_NOW=$utc"
+
+# STEP 3 - write the reconstructed apply-final-state record (BOM-free; DUP-guarded)
+$recPath = "$PWD\operator-evidence\BE-8\0048-APPLY-FINAL-STATE.txt"
+if (Test-Path $recPath) { throw "apply record already exists - STOP (E-0046-DUP law)" }
+$rec = @(
+ 'STATE_FILE_ID=ITRGA-V2-0048-APPLY-FINAL-STATE-V1',
+ 'TARGET_REVISION=20260904_0048',
+ 'TRIGGERS_TOTAL=58',
+ 'PERMISSIONS_TOTAL=57',
+ 'COMPVER_TOTAL=10',
+ 'COMPVER_RPE_HASH=1499343d48b778af17065e8bf1eaabcffc116880fa6967ab442db1255992b178',
+ 'COMPVER_RJE_HASH=8f107d174e081dc0a1527fea841b89dfb73744e3f16eba2d29c60521158c0598',
+ 'COMPVER_PXS_HASH=c58a06a5402f30a3828012f91b4aeb564008a9bfa34685cc57558e1003d106c0',
+ 'COMPVER_PRG_HASH=ed6434fa5ff00b937b71e1d76a8fef32bc019f134e56831ac9f74af525376b1b',
+ 'SUITE_RESULT=not-run (apply halted at A6; suite independently re-run by VERIFY ed-2)',
+ 'DB_PATH=C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db',
+ ('DB_SHA256_POST=' + $dbsha),
+ 'ANCHOR_SHA256=27bda3112e53baf426604532da4d5f44ef0c4d089c0f002e08d0ab9b740c776f',
+ 'TRANSCRIPT=0048-APPLY-RUN-V1.txt',
+ ('UTC_COMPLETED=' + $utc)
+)
+[IO.File]::WriteAllLines($recPath, $rec)
+"apply record written: $recPath"
+
+# STEP 4 - VERIFY Edition 2 identity
+$h = (Get-FileHash ".\ITRGA_V2_0048_VERIFY_PACK_V1.ps1" -Algorithm MD5).Hash
+if ($h -ne 'D1E71697119887ACC1D934FCFC1F8091') {
+    throw "VERIFY MD5 $h != D1E71697119887ACC1D934FCFC1F8091 (ed-2) - re-download, do NOT run"
+}
+"VERIFY ed-2 MD5 OK; length: $((Get-Item '.\ITRGA_V2_0048_VERIFY_PACK_V1.ps1').Length) (expect 37706)"
+
+# STEP 5 - evidence listing (paste output back with the run transcripts)
+Get-ChildItem $ev | Select-Object Name, Length
+----8<---- PART A ends ----8<----
+
+PART B -- run VERIFY Edition 2 (interactive; it asks the DB path at B1):
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File .\ITRGA_V2_0048_VERIFY_PACK_V1.ps1
+
+  B1 answer, EXACTLY (identical string used at APPLY):
+    C:\Users\victo\.vscode\AXIOM\axiom\backend\axiom_dev.db
+
+  EXPECT: B0 record strict-parse PASS; B1 record-chained identity PASS;
+  corpus/census/rollhash/tables/probe gates; then the FULL SUITE
+  (1,026 tests - allow several minutes); drift gates; PRE == POST sha;
+  final PASS banner; 0048-VERIFY-FINAL-STATE.txt + 0048-VERIFY-RUN-V1.txt
+  written in operator-evidence\BE-8.
+
+PART C -- return (paste here):
+  - Get-ChildItem .\operator-evidence\BE-8 listing (from PART A output)
+  - DB_SHA256_MEASURED and UTC_NOW lines (PART A output)
+  - 0048-APPLY-RUN-V1.txt and 0048-VERIFY-RUN-V1.txt (full transcripts)
+
+ANY STOP -> lawful halt. Capture verbatim. DO NOT improvise. Return to ITRGA.
+================================================================================
